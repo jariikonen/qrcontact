@@ -2,13 +2,14 @@ import React from 'react';
 import {
   Container,
   CssBaseline,
-  Grid2 as Grid,
   Typography,
+  Grid,
   Tabs,
   Box,
   Tab,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Form from './components/Form';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -60,12 +61,12 @@ function App() {
         <Container maxWidth="lg" sx={{ bgcolor: '#e0f7fa' }}>
           <CssBaseline />
           <Grid container spacing={0} direction="column">
-            <Grid size={12} display="flex" justifyContent="center">
+            <Grid item xs={12} display="flex" justifyContent="center">
               <Typography variant="h1" mt="2rem">
                 QRContact
               </Typography>
             </Grid>
-            <Grid size={12} display="flex" justifyContent="center" mt="2rem">
+            <Grid item xs={12} display="flex" justifyContent="center" mt="2rem">
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -81,7 +82,7 @@ function App() {
                 />
               </Tabs>
             </Grid>
-            <Grid size={12}>
+            <Grid item xs={12}>
               <Box
                 mt="2rem"
                 sx={{
@@ -91,7 +92,7 @@ function App() {
                 }}
               >
                 <CustomTabPanel value={value} index={0}>
-                  Item One
+                  <Form />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                   Item Two

@@ -11,7 +11,10 @@ import {
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { CountryCodeSelectorComposite as CountryCodeSelector } from 'mui-country-code-selector';
+import {
+  CountryCodeSelectorComposite as CountryCodeSelector,
+  CountryType,
+} from 'mui-country-code-selector';
 import {
   ArrayPath,
   Control,
@@ -22,6 +25,7 @@ import {
   UseFieldArrayRemove,
 } from 'react-hook-form';
 import { PhoneNumberType, PhoneNumberTypeOption } from './types';
+import { matchSorter } from 'match-sorter';
 
 export const phoneNumberTypeOptions: PhoneNumberTypeOption[] = [
   { label: 'Other', value: PhoneNumberType.Other },
@@ -77,6 +81,18 @@ export default function PhoneNumberInput<T extends FieldValues>({
     value: PhoneNumberTypeOption | PhoneNumberTypeOption[]
   ) => {
     onChange(value);
+  };
+
+  const filterOptions = (
+    options: CountryType[],
+    { inputValue }: { inputValue: string; getOptionLabel: object }
+  ) => {
+    const inputVal = inputValue.startsWith('+')
+      ? inputValue.substring(1)
+      : inputValue;
+    return matchSorter<CountryType>(options, inputVal, {
+      keys: ['country', 'code', 'iso'],
+    });
   };
 
   return (
@@ -147,6 +163,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                 phoneNumberLabel="Phone number"
                 selectorProps={{
                   sx: { maxWidth: '10rem', ml: 0, mr: '0.3rem' },
+                  filterOptions,
                 }}
                 inputProps={{
                   sx: { maxWidth: '30rem', ml: 0, mr: '0.3rem' },

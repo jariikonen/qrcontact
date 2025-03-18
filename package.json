@@ -15,6 +15,7 @@
     "@fontsource/roboto": "^5.2.5",
     "@mui/icons-material": "^5",
     "@mui/material": "^5",
+    "match-sorter": "^8.0.0",
     "mui-country-code-selector": "^0.1.1",
     "qrcode.react": "^4.2.0",
     "react": "^18",

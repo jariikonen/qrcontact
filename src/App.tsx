@@ -9,7 +9,8 @@ import {
   Tab,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Form from './components/Form';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import SimpleQRCreator from './components/SimpleQRCreator';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,7 +71,7 @@ function App() {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="basic tabs example"
+                aria-label="main function selection"
               >
                 <Tab
                   label="Enter your contact information and create a QR code from it"
@@ -92,10 +93,24 @@ function App() {
                 }}
               >
                 <CustomTabPanel value={value} index={0}>
-                  <Form />
+                  <SimpleQRCreator />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                  Item Two
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight={300}
+                  >
+                    <EngineeringIcon
+                      style={{
+                        color: 'black',
+                        marginRight: '1rem',
+                        fontSize: 100,
+                      }}
+                    />
+                    <Typography variant="h5">Work in progress ...</Typography>
+                  </Box>
                 </CustomTabPanel>
               </Box>
             </Grid>

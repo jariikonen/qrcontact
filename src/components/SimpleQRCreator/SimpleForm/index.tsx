@@ -1,12 +1,29 @@
-import { Box, Button, Grid, Typography, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
 import { useFieldArray, useForm } from 'react-hook-form';
-import PhoneNumberInput from '../PhoneNumberInput';
-import { FormValues } from './types';
-import { phoneNumberTypeOptions } from '../PhoneNumberInput';
+import PhoneNumberInput from '../../PhoneNumberInput';
+import { SimpleFormValues } from './types';
+import { phoneNumberTypeOptions } from '../../PhoneNumberInput';
 
 let renderCount = 0;
 
-export default function Form() {
+export interface SimpleFormProps {
+  /**
+   * A function to set the contact information when it is updated.
+   */
+  setContactInformation: React.Dispatch<
+    React.SetStateAction<SimpleFormValues | null>
+  >;
+
+  /**
+   * A function to reset the form.
+   */
+  handleReset: () => void;
+}
+
+export default function SimpleForm({
+  setContactInformation,
+  handleReset,
+}: SimpleFormProps) {
   renderCount++;
 
   const {
@@ -14,7 +31,7 @@ export default function Form() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<FormValues>({
+  } = useForm<SimpleFormValues>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -34,13 +51,10 @@ export default function Form() {
   });
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 'lg' }} style={{ margin: '2rem 1rem' }}>
-      <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
-        Create your VCard QR-code (render count: {renderCount})
-      </Typography>
+    <Box sx={{ flexGrow: 1 }}>
       <form
         onSubmit={handleSubmit((data) => {
-          console.log(data);
+          setContactInformation(data);
         })}
       >
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
@@ -68,7 +82,7 @@ export default function Form() {
           </Grid>
           {phoneFields.map((field, index) => {
             return (
-              <PhoneNumberInput<FormValues>
+              <PhoneNumberInput<SimpleFormValues>
                 key={field.id}
                 namePreferred={`phone.${index}.preferred`}
                 nameType={`phone.${index}.type`}
@@ -92,7 +106,12 @@ export default function Form() {
             <Button variant="contained" type="submit">
               Create
             </Button>
-            <Button variant="contained" type="reset" sx={{ ml: '0.5rem' }}>
+            <Button
+              variant="contained"
+              type="reset"
+              sx={{ ml: '0.5rem' }}
+              onClick={handleReset}
+            >
               Clear
             </Button>
           </Grid>

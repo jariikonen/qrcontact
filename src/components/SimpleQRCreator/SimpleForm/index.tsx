@@ -22,7 +22,7 @@ export interface SimpleFormProps {
 
 export default function SimpleForm({
   setContactInformation,
-  handleReset,
+  handleReset: handleResetOutside,
 }: SimpleFormProps) {
   renderCount++;
 
@@ -31,6 +31,7 @@ export default function SimpleForm({
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<SimpleFormValues>({
     defaultValues: {
       firstName: '',
@@ -49,6 +50,11 @@ export default function SimpleForm({
     name: 'phone',
     control,
   });
+
+  function handleReset() {
+    reset();
+    handleResetOutside();
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Container,
   CssBaseline,
@@ -7,10 +7,10 @@ import {
   Tabs,
   Box,
   Tab,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import EngineeringIcon from "@mui/icons-material/Engineering";
-import SimpleQRCreator from "./components/SimpleQRCreator";
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import SimpleQRCreator from './components/SimpleQRCreator';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,14 +37,14 @@ function CustomTabPanel(props: TabPanelProps) {
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
 const themeLight = createTheme({
   palette: {
     background: {
-      default: "#e0f7fa",
+      default: '#e0f7fa',
     },
   },
 });
@@ -59,7 +59,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={themeLight}>
-        <Container maxWidth="lg" sx={{ bgcolor: "#e0f7fa", pb: "6rem" }}>
+        <Container maxWidth="lg" sx={{ bgcolor: '#e0f7fa', pb: '6rem' }}>
           <CssBaseline />
           <Grid container spacing={0} direction="column">
             <Grid item xs={12} display="flex" justifyContent="center">
@@ -87,9 +87,9 @@ function App() {
               <Box
                 mt="2rem"
                 sx={{
-                  width: "100%",
-                  bgcolor: "white",
-                  borderRadius: "0.5rem",
+                  width: '100%',
+                  bgcolor: 'white',
+                  borderRadius: '0.5rem',
                 }}
               >
                 <CustomTabPanel value={value} index={0}>
@@ -104,8 +104,8 @@ function App() {
                   >
                     <EngineeringIcon
                       style={{
-                        color: "black",
-                        marginRight: "1rem",
+                        color: 'black',
+                        marginRight: '1rem',
                         fontSize: 100,
                       }}
                     />

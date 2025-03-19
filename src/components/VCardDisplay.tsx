@@ -12,13 +12,24 @@ export interface VCardBoxProps {
    * A function to set the VCard string when it is updated.
    */
   setVCardString: React.Dispatch<React.SetStateAction<string>>;
+
+  /**
+   * State of the VCard editor box.
+   */
+  vCardBoxOpen: boolean;
+
+  /**
+   * A function to set the state of the VCard editor box.
+   */
+  setVCardBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function VCardDisplay({
   vCardString,
   setVCardString,
+  vCardBoxOpen,
+  setVCardBoxOpen,
 }: VCardBoxProps) {
-  const [hideEditorBox, setHideEditorBox] = useState(true);
   const [downloadHref, setDownloadHref] = useState('');
 
   if (!vCardString) {
@@ -41,17 +52,17 @@ export default function VCardDisplay({
         <Button
           variant="contained"
           size="small"
-          onClick={() => setHideEditorBox(!hideEditorBox)}
+          onClick={() => setVCardBoxOpen(!vCardBoxOpen)}
           style={{ marginLeft: '0.5rem' }}
         >
-          {hideEditorBox ? 'Show' : 'Hide'} VCard editor
+          {vCardBoxOpen ? 'Hide' : 'Show'} VCard editor
         </Button>
       </Box>
       <VCardBox
         vCardString={vCardString}
         setVCardString={setVCardString}
         setDownloadHref={setDownloadHref}
-        hidden={hideEditorBox}
+        hidden={!vCardBoxOpen}
       />
     </Box>
   );

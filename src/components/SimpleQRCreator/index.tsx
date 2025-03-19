@@ -11,6 +11,7 @@ export default function SimpleQRCreator() {
   const [contactInformation, setContactInformation] =
     useState<SimpleFormValues | null>(null);
   const [vCardString, setVCardString] = useState('');
+  const [vCardBoxOpen, setVCardBoxOpen] = useState(false);
 
   useEffect(() => {
     if (contactInformation) {
@@ -39,6 +40,7 @@ export default function SimpleQRCreator() {
 
   const handleReset = () => {
     setContactInformation(null);
+    setVCardBoxOpen(false);
   };
 
   return (
@@ -61,6 +63,8 @@ export default function SimpleQRCreator() {
             <VCardDisplay
               vCardString={vCardString}
               setVCardString={setVCardString}
+              vCardBoxOpen={vCardBoxOpen}
+              setVCardBoxOpen={setVCardBoxOpen}
             />
           </Stack>
         </Grid>

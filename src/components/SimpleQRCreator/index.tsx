@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import VCard from 'vcard-creator';
 import { SimpleFormValues } from './SimpleForm/types';
@@ -44,20 +44,24 @@ export default function SimpleQRCreator() {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Grid container>
         <Grid item xs={12}>
-          <Typography align="left" variant="h5" style={{ margin: '1rem' }}>
+          <Typography
+            align="left"
+            variant="h5"
+            style={{ margin: '1rem 1rem 1rem 0' }}
+          >
             Create a VCard QR-code
           </Typography>
         </Grid>
-        <Grid item lg={6} xs={12} style={{ padding: '1rem' }}>
+        <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <SimpleForm
             setContactInformation={setContactInformation}
             handleReset={handleReset}
           />
         </Grid>
-        <Grid item lg={6} xs={12} display={'flex'} alignContent={'center'}>
+        <Grid item lg={5} xs={12} display={'flex'} alignContent={'center'}>
           <Stack spacing={2} direction={'column'} display={'flex'} flexGrow={1}>
             <QRCodeDisplay content={vCardString} />
             <VCardDisplay
@@ -69,6 +73,6 @@ export default function SimpleQRCreator() {
           </Stack>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 }

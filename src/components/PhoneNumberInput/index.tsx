@@ -1,10 +1,11 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Autocomplete,
   Box,
   Checkbox,
   FormControlLabel,
   FormHelperText,
+  FormLabel,
   Grid,
   IconButton,
   TextField,
@@ -26,6 +27,11 @@ import {
 } from 'react-hook-form';
 import { PhoneNumberType, PhoneNumberTypeOption } from './types';
 import { matchSorter } from 'match-sorter';
+
+function getScreenWidth() {
+  const { innerWidth: width } = window;
+  return width;
+}
 
 export const phoneNumberTypeOptions: PhoneNumberTypeOption[] = [
   { label: 'Other', value: PhoneNumberType.Other },
@@ -58,6 +64,18 @@ export default function PhoneNumberInput<T extends FieldValues>({
 }: PhoneNumberInputProps<T>) {
   const [phoneError, setPhoneError] = useState('');
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [screenWidth, setScreenWidth] = useState(getScreenWidth());
+
+  // set resize handler to get screen width to set minWidth for preferred
+  // selection when screenwidth is smaller than threshold
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(getScreenWidth());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handlePhoneNumberInputError = useCallback((errorStr: string) => {
     if (timeoutRef.current) {
@@ -96,33 +114,57 @@ export default function PhoneNumberInput<T extends FieldValues>({
   };
 
   return (
-    <React.Fragment key={field.id}>
+    <Fragment key={field.id}>
+      <Grid
+        item
+        xs={12}
+        sx={{ display: { xs: 'block', md: 'none' } }}
+        mt={'0.4rem'}
+        mb={'0.2rem'}
+      >
+        <FormLabel sx={{ fontSize: '0.9rem' }}>Phone number entry:</FormLabel>
+      </Grid>
       <Grid item xs={12}>
-        <Box display="flex" alignItems="left">
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          alignItems="flex-start"
+          rowGap={'0.5rem'}
+          sx={{
+            ml: { xs: '1rem', md: 0 },
+            mb: { xs: '0.5rem', md: 0 },
+            p: { xs: '1rem', md: 0 },
+            border: { xs: 1, md: 0 },
+            borderColor: { xs: 'grey.500', md: 'inherit' },
+            borderRadius: { xs: '0.7rem', md: 0 },
+          }}
+        >
           {fields.length > 1 && (
             <Controller
               name={namePreferred}
               control={control}
               render={({ field: { onChange, value } }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      sx={{ mt: '0.25rem' }}
-                      value={value}
-                      onChange={onChange}
-                    />
-                  }
-                  label="Preferred"
-                  labelPlacement="start"
-                  slotProps={{
-                    typography: {
-                      variant: 'caption',
-                      sx: { mt: '0.25rem' },
-                    },
-                  }}
-                  sx={{ ml: 0, mr: 0 }}
-                  hidden={fields.length === 1}
-                />
+                <Box minWidth={screenWidth < 390 ? '10rem' : 'auto'}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ mt: '0.25rem' }}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    }
+                    label="Preferred"
+                    labelPlacement="start"
+                    slotProps={{
+                      typography: {
+                        variant: 'caption',
+                        sx: { mt: '0.25rem' },
+                      },
+                    }}
+                    sx={{ ml: 0, mr: 0 }}
+                    hidden={fields.length === 1}
+                  />
+                </Box>
               )}
             />
           )}
@@ -162,11 +204,21 @@ export default function PhoneNumberInput<T extends FieldValues>({
               <CountryCodeSelector
                 phoneNumberLabel="Phone number"
                 selectorProps={{
-                  sx: { maxWidth: '10rem', ml: 0, mr: '0.3rem' },
+                  sx: {
+                    minWidth: '7rem',
+                    maxWidth: '7rem',
+                    ml: 0,
+                    mr: '0.3rem',
+                  },
                   filterOptions,
                 }}
                 inputProps={{
-                  sx: { maxWidth: '30rem', ml: 0, mr: '0.3rem' },
+                  sx: {
+                    minWidth: '10rem',
+                    maxWidth: '10rem',
+                    ml: 0,
+                    mr: '0.3rem',
+                  },
                 }}
                 value={value}
                 onChange={onChange}
@@ -175,17 +227,19 @@ export default function PhoneNumberInput<T extends FieldValues>({
               />
             )}
           />
-          <IconButton type="button" color="primary" onClick={handleInsert}>
-            <AddCircleIcon />
-          </IconButton>
-          <IconButton
-            type="button"
-            color="primary"
-            onClick={() => remove(index)}
-            disabled={fields.length === 1}
-          >
-            <RemoveCircleIcon />
-          </IconButton>
+          <Box display="block" pt={'0.5rem'}>
+            <IconButton type="button" color="primary" onClick={handleInsert}>
+              <AddCircleIcon />
+            </IconButton>
+            <IconButton
+              type="button"
+              color="primary"
+              onClick={() => remove(index)}
+              disabled={fields.length === 1}
+            >
+              <RemoveCircleIcon />
+            </IconButton>
+          </Box>
         </Box>
       </Grid>
       {phoneError && (
@@ -193,6 +247,6 @@ export default function PhoneNumberInput<T extends FieldValues>({
           <FormHelperText error>{phoneError}</FormHelperText>
         </Grid>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 }

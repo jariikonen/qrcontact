@@ -67,7 +67,7 @@ function App() {
                 }}
               >
                 <CustomTabPanel value={menuOption} index={0}>
-                  <Box minHeight={{ xs: '100vh', md: 300 }}>
+                  <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
                     <SimpleQRCreator />
                   </Box>
                 </CustomTabPanel>

@@ -1,16 +1,13 @@
-import React from 'react';
+import { Fragment, useState } from 'react';
+import { Container, CssBaseline, Typography, Grid, Box } from '@mui/material';
 import {
-  Container,
-  CssBaseline,
-  Typography,
-  Grid,
-  Tabs,
-  Box,
-  Tab,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@mui/material/styles';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import SimpleQRCreator from './components/SimpleQRCreator';
+import Header from './components/Header';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -29,19 +26,12 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: '1rem' }}>{children}</Box>}
     </div>
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const themeLight = createTheme({
+let theme = createTheme({
   palette: {
     background: {
       default: '#e0f7fa',
@@ -49,58 +39,44 @@ const themeLight = createTheme({
   },
 });
 
-function App() {
-  const [value, setValue] = React.useState(0);
+theme = responsiveFontSizes(theme, { factor: 7, breakpoints: ['md'] });
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+function App() {
+  const [menuOption, setMenuOption] = useState(0);
 
   return (
-    <>
-      <ThemeProvider theme={themeLight}>
-        <Container maxWidth="lg" sx={{ bgcolor: '#e0f7fa', pb: '6rem' }}>
+    <Fragment>
+      <ThemeProvider theme={theme}>
+        <Container
+          maxWidth="lg"
+          sx={{
+            bgcolor: '#e0f7fa',
+            pb: { xs: 0, md: '6rem' },
+            px: { xs: 0, md: '2rem' },
+          }}
+        >
           <CssBaseline />
           <Grid container spacing={0} direction="column">
-            <Grid item xs={12} display="flex" justifyContent="center">
-              <Typography variant="h1" mt="2rem">
-                QRContact
-              </Typography>
-            </Grid>
-            <Grid item xs={12} display="flex" justifyContent="center" mt="2rem">
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="main function selection"
-              >
-                <Tab
-                  label="Enter your contact information and create a QR code from it"
-                  {...a11yProps(0)}
-                />
-                <Tab
-                  label="Create a contact page and link to it with a QR code"
-                  {...a11yProps(1)}
-                />
-              </Tabs>
-            </Grid>
+            <Header menuOption={menuOption} setMenuOption={setMenuOption} />
             <Grid item xs={12}>
               <Box
-                mt="2rem"
                 sx={{
                   width: '100%',
                   bgcolor: 'white',
-                  borderRadius: '0.5rem',
+                  borderRadius: { xs: 0, md: '1rem' },
                 }}
               >
-                <CustomTabPanel value={value} index={0}>
-                  <SimpleQRCreator />
+                <CustomTabPanel value={menuOption} index={0}>
+                  <Box minHeight={{ xs: '100vh', md: 300 }}>
+                    <SimpleQRCreator />
+                  </Box>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
+                <CustomTabPanel value={menuOption} index={1}>
                   <Box
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    minHeight={300}
+                    minHeight={{ xs: '100vh', md: 300 }}
                   >
                     <EngineeringIcon
                       style={{
@@ -117,7 +93,7 @@ function App() {
           </Grid>
         </Container>
       </ThemeProvider>
-    </>
+    </Fragment>
   );
 }
 

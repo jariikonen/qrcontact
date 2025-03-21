@@ -35,7 +35,7 @@ export default function SimpleQRCreator() {
         vCardObject.addPhoneNumber(phone.number, phoneTypeStr);
       });
 
-      setVCardString(vCardObject.toString());
+      setVCardString(vCardObject.toString().trim());
     } else {
       setVCardString('');
     }

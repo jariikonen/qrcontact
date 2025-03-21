@@ -39,6 +39,7 @@ export default function VCardDisplay({
   return (
     <Box>
       <Box
+        id="vcard-display"
         sx={{ margin: '1rem 0' }}
         display={'flex'}
         justifyContent={'center'}

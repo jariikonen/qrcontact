@@ -12,6 +12,9 @@ export default function SimpleQRCreator() {
     useState<SimpleFormValues | null>(null);
   const [vCardString, setVCardString] = useState('');
   const [vCardBoxOpen, setVCardBoxOpen] = useState(false);
+  const [elementIdToScrollTo, setElementIdToScrollTo] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (contactInformation) {
@@ -38,9 +41,23 @@ export default function SimpleQRCreator() {
     }
   }, [contactInformation]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (elementIdToScrollTo) {
+        document.getElementById(elementIdToScrollTo)?.scrollIntoView();
+        setElementIdToScrollTo(null);
+      }
+    }, 100);
+  }, [elementIdToScrollTo]);
+
+  const handleSubmit = () => {
+    setElementIdToScrollTo('vcard-display');
+  };
+
   const handleReset = () => {
     setContactInformation(null);
     setVCardBoxOpen(false);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -58,6 +75,7 @@ export default function SimpleQRCreator() {
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <SimpleForm
             setContactInformation={setContactInformation}
+            handleSubmit={handleSubmit}
             handleReset={handleReset}
           />
         </Grid>

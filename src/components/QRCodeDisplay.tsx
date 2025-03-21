@@ -13,6 +13,7 @@ export default function ({ content }: QRCodeDisplayProps) {
 
   return (
     <Box
+      id="qrcode-display"
       display="flex"
       justifyContent="center"
       alignItems="center"

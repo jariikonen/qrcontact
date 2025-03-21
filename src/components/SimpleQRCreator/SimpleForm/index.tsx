@@ -14,13 +14,19 @@ export interface SimpleFormProps {
   >;
 
   /**
-   * A function to reset the form.
+   * Callback function that is executed when the form is submitted.
+   */
+  handleSubmit: () => void;
+
+  /**
+   * Callback function that is executed when the form is reset.
    */
   handleReset: () => void;
 }
 
 export default function SimpleForm({
   setContactInformation,
+  handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
 }: SimpleFormProps) {
   const [elementIdToScrollTo, setElementIdToScrollTo] = useState<number | null>(
@@ -65,7 +71,6 @@ export default function SimpleForm({
   function handleReset() {
     reset();
     handleResetOutside();
-    window.scrollTo(0, 0);
   }
 
   function handleInsert(id: number) {
@@ -83,6 +88,7 @@ export default function SimpleForm({
       <form
         onSubmit={handleSubmit((data) => {
           setContactInformation(data);
+          handleSubmitOutside();
         })}
       >
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>

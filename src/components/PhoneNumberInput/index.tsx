@@ -124,7 +124,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
       >
         <FormLabel sx={{ fontSize: '0.9rem' }}>Phone number entry:</FormLabel>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} id={`phone.${index}`}>
         <Box
           display="flex"
           flexWrap="wrap"
@@ -151,6 +151,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                         sx={{ mt: '0.25rem' }}
                         value={value}
                         onChange={onChange}
+                        id={`phone.${index}.preferredCheckbox`}
                       />
                     }
                     label="Preferred"

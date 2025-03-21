@@ -3,8 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import PhoneNumberInput from '../../PhoneNumberInput';
 import { SimpleFormValues } from './types';
 import { phoneNumberTypeOptions } from '../../PhoneNumberInput';
-
-let renderCount = 0;
+import { useEffect, useState } from 'react';
 
 export interface SimpleFormProps {
   /**
@@ -24,7 +23,19 @@ export default function SimpleForm({
   setContactInformation,
   handleReset: handleResetOutside,
 }: SimpleFormProps) {
-  renderCount++;
+  const [elementIdToScrollTo, setElementIdToScrollTo] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (elementIdToScrollTo) {
+      document.getElementById(`phone.${elementIdToScrollTo}`)?.scrollIntoView();
+      document
+        .getElementById(`phone.${elementIdToScrollTo}.preferredCheckbox`)
+        ?.focus();
+      setElementIdToScrollTo(null);
+    }
+  });
 
   const {
     register,
@@ -54,6 +65,17 @@ export default function SimpleForm({
   function handleReset() {
     reset();
     handleResetOutside();
+    window.scrollTo(0, 0);
+  }
+
+  function handleInsert(id: number) {
+    insert(id, {
+      preferred: false,
+      type: phoneNumberTypeOptions[0],
+      number: '',
+    });
+    document;
+    setElementIdToScrollTo(id);
   }
 
   return (
@@ -96,13 +118,7 @@ export default function SimpleForm({
                 control={control}
                 fields={phoneFields}
                 field={field}
-                handleInsert={() =>
-                  insert(index + 1, {
-                    preferred: false,
-                    type: phoneNumberTypeOptions[0],
-                    number: '',
-                  })
-                }
+                handleInsert={() => handleInsert(index + 1)}
                 remove={remove}
                 index={index}
               />

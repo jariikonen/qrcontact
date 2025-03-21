@@ -48,7 +48,6 @@ export default function VCardBox({
         fullWidth
         value={vCardString}
         onChange={(e) => {
-          console.log(e.target.value);
           setVCardString(e.target.value);
         }}
       />

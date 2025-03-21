@@ -22,6 +22,11 @@ export interface VCardBoxProps {
    * A function to set the state of the VCard editor box.
    */
   setVCardBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Callback function that is executed when the box is opened.
+   */
+  handleBoxOpen?: () => void;
 }
 
 export default function VCardDisplay({
@@ -29,8 +34,17 @@ export default function VCardDisplay({
   setVCardString,
   vCardBoxOpen,
   setVCardBoxOpen,
+  handleBoxOpen: handleBoxOpenOutside,
 }: VCardBoxProps) {
   const [downloadHref, setDownloadHref] = useState('');
+
+  const handleBoxOpen = () => {
+    const previouslyOpen = vCardBoxOpen;
+    setVCardBoxOpen(!vCardBoxOpen);
+    if (!previouslyOpen && handleBoxOpenOutside) {
+      handleBoxOpenOutside();
+    }
+  };
 
   if (!vCardString) {
     return null;
@@ -53,7 +67,7 @@ export default function VCardDisplay({
         <Button
           variant="contained"
           size="small"
-          onClick={() => setVCardBoxOpen(!vCardBoxOpen)}
+          onClick={() => handleBoxOpen()}
           style={{ marginLeft: '0.5rem' }}
         >
           {vCardBoxOpen ? 'Hide' : 'Show'} VCard editor

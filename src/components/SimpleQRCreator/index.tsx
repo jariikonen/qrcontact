@@ -44,7 +44,11 @@ export default function SimpleQRCreator() {
   useEffect(() => {
     setTimeout(() => {
       if (elementIdToScrollTo) {
-        document.getElementById(elementIdToScrollTo)?.scrollIntoView();
+        const el = document.getElementById(elementIdToScrollTo);
+        el?.scrollIntoView();
+        if (elementIdToScrollTo == 'vcard-box') {
+          el?.focus();
+        }
         setElementIdToScrollTo(null);
       }
     }, 100);
@@ -58,6 +62,10 @@ export default function SimpleQRCreator() {
     setContactInformation(null);
     setVCardBoxOpen(false);
     window.scrollTo(0, 0);
+  };
+
+  const handleVCardBoxOpen = () => {
+    setElementIdToScrollTo('vcard-box');
   };
 
   return (
@@ -87,6 +95,7 @@ export default function SimpleQRCreator() {
               setVCardString={setVCardString}
               vCardBoxOpen={vCardBoxOpen}
               setVCardBoxOpen={setVCardBoxOpen}
+              handleBoxOpen={handleVCardBoxOpen}
             />
           </Stack>
         </Grid>

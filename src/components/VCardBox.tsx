@@ -42,6 +42,7 @@ export default function VCardBox({
       display={hidden ? 'none' : 'block'}
     >
       <TextField
+        id="vcard-box"
         type="text"
         multiline
         fullWidth

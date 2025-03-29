@@ -1,43 +1,11 @@
 {
-  "name": "qrcontact",
-  "private": true,
+  "name": "qrcontact-monorepo",
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@fontsource/roboto": "^5.2.5",
-    "@mui/icons-material": "^5",
-    "@mui/material": "^5",
-    "match-sorter": "^8.0.0",
-    "mui-country-code-selector": "^0.1.1",
-    "qrcode.react": "^4.2.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7",
-    "vcard-creator": "^0.7.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.21.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^15.15.0",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
-  }
+  "private": true,
+  "description": "A monorepo for QRContact",
+  "author": "Jari Ikonen",
+  "workspaces": [
+    "packages/frontend",
+    "packages/backend"
+  ]
 }

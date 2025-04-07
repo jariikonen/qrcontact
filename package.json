@@ -7,5 +7,8 @@
   "workspaces": [
     "packages/frontend",
     "packages/backend"
-  ]
+  ],
+  "scripts": {
+    "cleanup": "rm -rf node_nodules && npm run cleanup -w qrcontact-frontend"
+  }
 }

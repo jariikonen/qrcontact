@@ -4,6 +4,7 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import vitestGlobals from 'eslint-plugin-vitest-globals';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -11,6 +12,7 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
+      vitestGlobals.configs.recommended,
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -25,6 +27,7 @@ export default tseslint.config(
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'vitest-globals': vitestGlobals,
     },
     settings: {
       react: {
@@ -50,6 +53,9 @@ export default tseslint.config(
           allowConstantExport: true,
         },
       ],
+    },
+    env: {
+      'vitest-globals/env': true,
     },
   }
 );

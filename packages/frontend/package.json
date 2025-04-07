@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "cleanup": "rm -rf dist && rm -rf node_modules"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -16,7 +18,7 @@
     "@mui/icons-material": "^5",
     "@mui/material": "^5",
     "match-sorter": "^8.0.0",
-    "mui-country-code-selector": "^0.1.1",
+    "mui-country-code-selector": "^0.1.2",
     "qrcode.react": "^4.2.0",
     "react": "^18",
     "react-dom": "^18",
@@ -25,6 +27,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.4",
@@ -35,9 +39,12 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-vitest-globals": "^1.5.0",
     "globals": "^15.15.0",
+    "jsdom": "^26.0.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vitest": "^3.0.9"
   }
 }

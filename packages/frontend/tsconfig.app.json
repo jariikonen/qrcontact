@@ -26,7 +26,10 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    /* Vitest */
+    "types": ["vitest/globals"]
   },
   "include": ["src"]
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Button, Link, Stack } from '@mui/material';
-import { QRCodeVector } from './QRCode/QRCodeVector';
 import { QRCodeBitmap } from './QRCode/QRCodeBitmap';
+import { QRCodeVector } from './QRCode/QRCodeVector';
 
 export interface QRCodeDisplayProps {
   content: string;

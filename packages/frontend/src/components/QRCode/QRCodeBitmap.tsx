@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { QRCodeProps } from './types';
+import { QRCodeComponentProps } from './types';
 import { Box } from '@mui/material';
 
 const getCanvasElementById = (id: string): HTMLCanvasElement => {
@@ -16,10 +16,10 @@ const getCanvasElementById = (id: string): HTMLCanvasElement => {
 export const QRCodeBitmap = ({
   content,
   setDownloadHref,
-  size = 128,
   hidden = false,
+  size = 128,
   errorCorrectionLevel = 'L',
-}: QRCodeProps) => {
+}: QRCodeComponentProps) => {
   const [canvasElement, setCanvasElement] = useState<HTMLCanvasElement | null>(
     null
   );
@@ -33,9 +33,19 @@ export const QRCodeBitmap = ({
 
   useEffect(() => {
     if (canvasElement) {
-      setDownloadHref(canvasElement.toDataURL('image/png'));
+      canvasElement.toBlob((blob) => {
+        if (blob) {
+          setDownloadHref(URL.createObjectURL(blob));
+        }
+      }, 'image/png');
     }
-  }, [canvasElement, setDownloadHref]);
+  }, [canvasElement, setDownloadHref, content]);
+  /* const blob = new Blob([canvasElement.toDataURL('image/png')], {
+        type: 'image/png',
+      });
+      setDownloadHref(URL.createObjectURL(blob));
+    }
+  }, [canvasElement, setDownloadHref, content]); */
 
   return (
     <Box display={hidden ? 'none' : 'block'}>

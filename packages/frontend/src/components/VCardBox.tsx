@@ -31,9 +31,10 @@ export default function VCardBox({
   hidden = false,
 }: VCardBoxProps) {
   useEffect(() => {
-    const href =
-      'data:text/vcard;charset=utf-8,' + encodeURIComponent(vCardString);
-    setDownloadHref(href);
+    const blob = new Blob([vCardString], {
+      type: 'text/vcard;charset=UTF-8',
+    });
+    setDownloadHref(URL.createObjectURL(blob));
   }, [vCardString, setDownloadHref]);
   return (
     <Box

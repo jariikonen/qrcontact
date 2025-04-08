@@ -40,12 +40,6 @@ export const QRCodeBitmap = ({
       }, 'image/png');
     }
   }, [canvasElement, setDownloadHref, content]);
-  /* const blob = new Blob([canvasElement.toDataURL('image/png')], {
-        type: 'image/png',
-      });
-      setDownloadHref(URL.createObjectURL(blob));
-    }
-  }, [canvasElement, setDownloadHref, content]); */
 
   return (
     <Box display={hidden ? 'none' : 'block'}>

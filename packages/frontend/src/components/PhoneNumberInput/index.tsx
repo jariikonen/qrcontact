@@ -40,17 +40,40 @@ export const phoneNumberTypeOptions: PhoneNumberTypeOption[] = [
 ];
 
 export interface PhoneNumberInputProps<T extends FieldValues> {
+  /** Control object from react-hook-form. */
   control: Control<T>;
+
+  /** Index of current phone number input. */
   index: number;
+
+  /** Array of phone number entries. */
   fields: FieldArrayWithId<FieldValues, ArrayPath<T>, 'id'>[];
+
+  /** Current phone number input. */
   field: FieldArrayWithId<FieldValues, ArrayPath<T>, 'id'>;
+
+  /** Name of the preferred checkbox field. */
   namePreferred: Path<T>;
+
+  /** Name of the phone number type field. */
   nameType: Path<T>;
+
+  /** Name of the phone number input field. */
   nameNumber: Path<T>;
+
+  /** Function to handle insertion of a new phone number input. */
   handleInsert: () => void;
+
+  /** Function for removing a phone number input. */
   remove: UseFieldArrayRemove;
 }
 
+/**
+ * Component for rendering a phone number input with type and preferred options.
+ *
+ * @param {PhoneNumberInputProps} props - Properties for the PhoneNumberInput component.
+ * @returns {JSX.Element} Rendered PhoneNumberInput component.
+ */
 export default function PhoneNumberInput<T extends FieldValues>({
   control,
   index,
@@ -66,8 +89,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [screenWidth, setScreenWidth] = useState(getScreenWidth());
 
-  // set resize handler to get screen width to set minWidth for preferred
-  // selection when screenwidth is smaller than threshold
+  // Add a resize handler to get the screen width.
   useEffect(() => {
     function handleResize() {
       setScreenWidth(getScreenWidth());
@@ -77,6 +99,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Handler for the phone number input error messages.
   const handlePhoneNumberInputError = useCallback((errorStr: string) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -94,6 +117,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
     timeoutRef.current = newTimeout;
   }, []);
 
+  // Handler for the phone number type change events.
   const handleTypeChange = (
     onChange: (...event: any[]) => void,
     value: PhoneNumberTypeOption | PhoneNumberTypeOption[]
@@ -101,6 +125,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
     onChange(value);
   };
 
+  // Function for filtering the country code options based on user input.
   const filterOptions = (
     options: CountryType[],
     { inputValue }: { inputValue: string; getOptionLabel: object }

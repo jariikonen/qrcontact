@@ -1,6 +1,6 @@
 import { PhoneNumberTypeOption } from '../../PhoneNumberInput/types';
 
-export interface SimpleFormValues {
+export interface ContactFormValues {
   firstName: string;
   lastName: string;
   phone: {

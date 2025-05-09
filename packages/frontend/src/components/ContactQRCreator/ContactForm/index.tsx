@@ -1,34 +1,34 @@
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { useFieldArray, useForm } from 'react-hook-form';
 import PhoneNumberInput from '../../PhoneNumberInput';
-import { SimpleFormValues } from './types';
+import { ContactFormValues } from './types';
 import { phoneNumberTypeOptions } from '../../PhoneNumberInput';
 import { useEffect, useState } from 'react';
 
-export interface SimpleFormProps {
-  /**
-   * A function to set the contact information when it is updated.
-   */
+export interface ContactFormProps {
+  /** Function for setting the contact information state variable. */
   setContactInformation: React.Dispatch<
-    React.SetStateAction<SimpleFormValues | null>
+    React.SetStateAction<ContactFormValues | null>
   >;
 
-  /**
-   * Callback function that is executed when the form is submitted.
-   */
+  /** Callback function that is executed when the form is submitted. */
   handleSubmit: () => void;
 
-  /**
-   * Callback function that is executed when the form is reset.
-   */
+  /** Callback function that is executed when the form is reset. */
   handleReset: () => void;
 }
 
-export default function SimpleForm({
+/**
+ * Form component for collecting contact information.
+ *
+ * @param {ContactFormProps} props - Props for the ContactForm component.
+ * @returns {JSX.Element} Rendered ContactForm component.
+ */
+export default function ContactForm({
   setContactInformation,
   handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
-}: SimpleFormProps) {
+}: ContactFormProps) {
   const [elementIdToScrollTo, setElementIdToScrollTo] = useState<number | null>(
     null
   );
@@ -43,13 +43,14 @@ export default function SimpleForm({
     }
   });
 
+  // Set up the form using react-hook-form's useForm hook
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
     reset,
-  } = useForm<SimpleFormValues>({
+  } = useForm<ContactFormValues>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -59,6 +60,7 @@ export default function SimpleForm({
     },
   });
 
+  // Set up the field array for dynamic creation of phone number inputs
   const {
     fields: phoneFields,
     insert,
@@ -68,11 +70,13 @@ export default function SimpleForm({
     control,
   });
 
+  // Function to handle the resetting of the form
   function handleReset() {
     reset();
     handleResetOutside();
   }
 
+  // Function to handle the insertion of a new phone number input
   function handleInsert(id: number) {
     insert(id, {
       preferred: false,
@@ -116,7 +120,7 @@ export default function SimpleForm({
           </Grid>
           {phoneFields.map((field, index) => {
             return (
-              <PhoneNumberInput<SimpleFormValues>
+              <PhoneNumberInput<ContactFormValues>
                 key={field.id}
                 namePreferred={`phone.${index}.preferred`}
                 nameType={`phone.${index}.type`}

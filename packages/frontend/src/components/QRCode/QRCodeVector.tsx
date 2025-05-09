@@ -4,6 +4,12 @@ import { QRCodeComponentProps } from './types';
 import { Box } from '@mui/material';
 import getSVGDownloadHref from './getSVGDownloadHref';
 
+/**
+ * Component for generating a QR code as a vector image (SVG).
+ *
+ * @param {QRCodeComponentProps} props - Props for the QRCodeVector component.
+ * @returns {JSX.Element} Rendered QRCodeVector component.
+ */
 export const QRCodeVector = ({
   content,
   setDownloadHref,

@@ -7,6 +7,12 @@ export interface QRCodeDisplayProps {
   content: string;
 }
 
+/**
+ * Component for displaying a QR code and providing download options.
+ *
+ * @param {QRCodeDisplayProps} props - Props for the QRCodeDisplay component.
+ * @returns {JSX.Element} Rendered QRCodeDisplay component.
+ */
 export default function ({ content }: QRCodeDisplayProps) {
   const [bitmapDownloadHref, setBitmapDownloadHref] = useState('');
   const [vectorDownloadHref, setVectorDownloadHref] = useState('');

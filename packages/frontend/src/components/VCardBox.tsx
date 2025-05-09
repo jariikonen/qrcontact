@@ -2,19 +2,13 @@ import { Box, TextField } from '@mui/material';
 import { useEffect } from 'react';
 
 export interface VCardBoxProps {
-  /**
-   * The vCard string to display in the text field.
-   */
+  /** VCard string to display in the text field. */
   vCardString: string;
 
-  /**
-   * A function to set the vCard string when it is updated.
-   */
+  /** Function for setting the vCard string state variable. */
   setVCardString: React.Dispatch<React.SetStateAction<string>>;
 
-  /**
-   * A function to set the download href.
-   */
+  /** Function for setting the download href state variable. */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;
 
   /**
@@ -24,6 +18,14 @@ export interface VCardBoxProps {
   hidden?: boolean;
 }
 
+/**
+ * Component for displaying a vCard string in a text field.
+ *
+ * Any changes to the text field will update the vCard string.
+ *
+ * @param {VCardBoxProps} props - Props for the VCardBox component.
+ * @returns {JSX.Element} Rendered VCardBox component.
+ */
 export default function VCardBox({
   vCardString,
   setVCardString,

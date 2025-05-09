@@ -6,24 +6,32 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 import EngineeringIcon from '@mui/icons-material/Engineering';
-import SimpleQRCreator from './components/SimpleQRCreator';
+import ContactQRCreator from './components/ContactQRCreator';
 import Header from './components/Header';
 
 interface TabPanelProps {
   children?: React.ReactNode;
+
+  /** Index of the current panel. */
   index: number;
+
+  /** Index of the currently active TabPanel. */
   value: number;
 }
 
-function CustomTabPanel(props: TabPanelProps) {
+/**
+ * Component for displaying the two main functionalities of the app in separate
+ * panels activated by clicking on tabs.
+ */
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
       {...other}
     >
       {value === index && <Box sx={{ p: '1rem' }}>{children}</Box>}
@@ -66,12 +74,12 @@ function App() {
                   borderRadius: { xs: 0, md: '1rem' },
                 }}
               >
-                <CustomTabPanel value={menuOption} index={0}>
+                <TabPanel value={menuOption} index={0}>
                   <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <SimpleQRCreator />
+                    <ContactQRCreator />
                   </Box>
-                </CustomTabPanel>
-                <CustomTabPanel value={menuOption} index={1}>
+                </TabPanel>
+                <TabPanel value={menuOption} index={1}>
                   <Box
                     display="flex"
                     justifyContent="center"
@@ -87,7 +95,7 @@ function App() {
                     />
                     <Typography variant="h5">Work in progress ...</Typography>
                   </Box>
-                </CustomTabPanel>
+                </TabPanel>
               </Box>
             </Grid>
           </Grid>

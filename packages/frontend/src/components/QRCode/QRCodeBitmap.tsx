@@ -13,6 +13,12 @@ const getCanvasElementById = (id: string): HTMLCanvasElement => {
   return canvas;
 };
 
+/**
+ * Component for generating a QR code as a bitmap image.
+ *
+ * @param {QRCodeComponentProps} props - Props for the QRCodeBitmap component.
+ * @returns {JSX.Element} Rendered QRCodeBitmap component.
+ */
 export const QRCodeBitmap = ({
   content,
   setDownloadHref,

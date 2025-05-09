@@ -1,15 +1,20 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import VCard from 'vcard-creator';
-import { SimpleFormValues } from './SimpleForm/types';
-import SimpleForm from './SimpleForm';
+import { ContactFormValues } from './ContactForm/types';
+import ContactForm from './ContactForm';
 import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeString';
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
 
-export default function SimpleQRCreator() {
+/**
+ * Component for creating a VCard QR code.
+ *
+ * @returns {JSX.Element} Rendered ContactQRCreator component.
+ */
+export default function ContactQRCreator() {
   const [contactInformation, setContactInformation] =
-    useState<SimpleFormValues | null>(null);
+    useState<ContactFormValues | null>(null);
   const [vCardString, setVCardString] = useState('');
   const [vCardBoxOpen, setVCardBoxOpen] = useState(false);
   const [elementIdToScrollTo, setElementIdToScrollTo] = useState<string | null>(
@@ -81,7 +86,7 @@ export default function SimpleQRCreator() {
           </Typography>
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
-          <SimpleForm
+          <ContactForm
             setContactInformation={setContactInformation}
             handleSubmit={handleSubmit}
             handleReset={handleReset}

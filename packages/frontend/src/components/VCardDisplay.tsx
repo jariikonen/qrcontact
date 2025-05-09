@@ -3,32 +3,29 @@ import { Box, Button, Link } from '@mui/material';
 import VCardBox from './VCardBox';
 
 export interface VCardBoxProps {
-  /**
-   * Contents of the VCard file as a string.
-   */
+  /** VCard content as a string. */
   vCardString: string;
 
-  /**
-   * A function to set the VCard string when it is updated.
-   */
+  /** Function for setting the vCard string state variable. */
   setVCardString: React.Dispatch<React.SetStateAction<string>>;
 
-  /**
-   * State of the VCard editor box.
-   */
+  /** State of the VCard editor box. */
   vCardBoxOpen: boolean;
 
-  /**
-   * A function to set the state of the VCard editor box.
-   */
+  /** Function for setting the state of the vCard editor box. */
   setVCardBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
-  /**
-   * Callback function that is executed when the box is opened.
-   */
+  /** Callback function that is executed when the box is opened. */
   handleBoxOpen?: () => void;
 }
 
+/**
+ * Component for displaying a vCard string and providing options to download it
+ * and show/hide the vCard editor.
+ *
+ * @param {VCardBoxProps} props - Props for the VCardDisplay component.
+ * @returns {JSX.Element} Rendered VCardDisplay component.
+ */
 export default function VCardDisplay({
   vCardString,
   setVCardString,

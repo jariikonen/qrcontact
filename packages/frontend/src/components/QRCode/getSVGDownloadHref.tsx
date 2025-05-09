@@ -2,6 +2,12 @@ import { renderToString } from 'react-dom/server';
 import { QRCodeSVG } from 'qrcode.react';
 import { QRCodeProps } from './types';
 
+/**
+ * Generates a downloadable SVG blob URL for a QR code.
+ *
+ * @param {QRCodeProps} props - Props for the QRCode component.
+ * @returns {string} Blob URL for the SVG QR code.
+ */
 export default function getSVGDownloadHref({
   content,
   size = 128,

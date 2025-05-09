@@ -1,12 +1,8 @@
 export interface QRCodeProps {
-  /**
-   * Content to be encoded in the QR code.
-   */
+  /** Content to be encoded in the QR code. */
   content: string;
 
-  /**
-   * Size of the QR code in pixels.
-   */
+  /** Size of the QR code in pixels. */
   size?: number;
 
   /**
@@ -25,8 +21,6 @@ export interface QRCodeComponentProps extends QRCodeProps {
    */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;
 
-  /**
-   * Boolean indicating whether the element is displayed or not.
-   */
+  /** Boolean indicating whether the element is displayed or not. */
   hidden?: boolean;
 }

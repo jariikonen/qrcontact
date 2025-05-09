@@ -19,27 +19,29 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 
 export interface HeaderProps {
-  /**
-   * Currently selected menu option.
-   */
+  /** Currently selected menu option. */
   menuOption: number;
 
-  /**
-   * A function for setting the menu option.
-   */
+  /** Function for setting the menu option state variable. */
   setMenuOption: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function a11yProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `tab-${index}`,
+    'aria-controls': `tabpanel-${index}`,
   };
 }
 
 const MENU_TEXT_STATIC = 'Create a QR code from your contact information';
 const MENU_TEXT_DYNAMIC = 'Create a contact page and link to it with a QR code';
 
+/**
+ * Page header component for the application.
+ *
+ * @param {HeaderProps} props - The props for the Header component.
+ * @returns {JSX.Element} The rendered Header component.
+ */
 export default function Header({ menuOption, setMenuOption }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 

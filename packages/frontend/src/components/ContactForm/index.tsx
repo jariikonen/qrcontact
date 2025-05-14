@@ -1,15 +1,13 @@
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { useFieldArray, useForm } from 'react-hook-form';
-import PhoneNumberInput from '../../PhoneNumberInput';
+import PhoneNumberInput from '../PhoneNumberInput';
 import { ContactFormValues } from './types';
-import { phoneNumberTypeOptions } from '../../PhoneNumberInput';
+import { phoneNumberTypeOptions } from '../PhoneNumberInput';
 import { useEffect, useState } from 'react';
 
 export interface ContactFormProps {
   /** Function for setting the contact information state variable. */
-  setContactInformation: React.Dispatch<
-    React.SetStateAction<ContactFormValues | null>
-  >;
+  setContactInformation: (contactInformation: ContactFormValues | null) => void;
 
   /** Callback function that is executed when the form is submitted. */
   handleSubmit: () => void;

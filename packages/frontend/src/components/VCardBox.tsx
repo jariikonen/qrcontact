@@ -6,7 +6,7 @@ export interface VCardBoxProps {
   vCardString: string;
 
   /** Function for setting the vCard string state variable. */
-  setVCardString: React.Dispatch<React.SetStateAction<string>>;
+  setVCardString: (vCardString: string) => void;
 
   /** Function for setting the download href state variable. */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;

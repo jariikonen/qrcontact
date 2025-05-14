@@ -24,7 +24,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7",
-    "vcard-creator": "^0.7.1"
+    "vcard-creator": "^0.7.1",
+    "zustand": "^4.5.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

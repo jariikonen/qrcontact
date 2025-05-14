@@ -8,29 +8,31 @@ import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
 import { Store } from '../../store';
 
-interface ContactQRCreatorProps {
+interface ContactPageCreatorProps {
   useStore: UseBoundStore<StoreApi<Store>>;
 }
 
 /**
- * Component for creating a vCard QR code.
+ * Component for creating a contact page that is linked to with a QR code.
  *
- * @returns {JSX.Element} Rendered ContactQRCreator component.
+ * @returns {JSX.Element} Rendered ContactPageCreator component.
  */
-export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
+export default function ContactPageCreator({
+  useStore,
+}: ContactPageCreatorProps) {
   const contactInformation = useStore(
-    (state) => state.staticContactInformation
+    (state) => state.dynamicContactInformation
   );
-  const vCardString = useStore((state) => state.staticVCardString);
-  const vCardBoxOpen = useStore((state) => state.staticVCardBoxOpen);
+  const vCardString = useStore((state) => state.dynamicVCardString);
+  const vCardBoxOpen = useStore((state) => state.dynamicVCardBoxOpen);
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
   const setContactInformation = useStore(
-    (state) => state.setStaticContactInformation
+    (state) => state.setDynamicContactInformation
   );
-  const setVCardString = useStore((state) => state.setStaticVCardString);
-  const setVCardBoxOpen = useStore((state) => state.setStaticVCardBoxOpen);
+  const setVCardString = useStore((state) => state.setDynamicVCardString);
+  const setVCardBoxOpen = useStore((state) => state.setDynamicVCardBoxOpen);
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -96,7 +98,7 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
             variant="h5"
             style={{ margin: '1rem 1rem 1rem 0' }}
           >
-            Create a vCard QR code
+            Create a VCard QR-code
           </Typography>
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>

@@ -7,13 +7,13 @@ export interface VCardBoxProps {
   vCardString: string;
 
   /** Function for setting the vCard string state variable. */
-  setVCardString: React.Dispatch<React.SetStateAction<string>>;
+  setVCardString: (vCardString: string) => void;
 
   /** State of the VCard editor box. */
   vCardBoxOpen: boolean;
 
   /** Function for setting the state of the vCard editor box. */
-  setVCardBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setVCardBoxOpen: (vCardBoxOpen: boolean) => void;
 
   /** Callback function that is executed when the box is opened. */
   handleBoxOpen?: () => void;

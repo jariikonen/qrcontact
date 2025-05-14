@@ -1,13 +1,14 @@
 import { Fragment, useState } from 'react';
-import { Container, CssBaseline, Typography, Grid, Box } from '@mui/material';
+import { Container, CssBaseline, Grid, Box } from '@mui/material';
 import {
   createTheme,
   responsiveFontSizes,
   ThemeProvider,
 } from '@mui/material/styles';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import ContactQRCreator from './components/ContactQRCreator';
+import { createStore } from './store';
 import Header from './components/Header';
+import ContactQRCreator from './components/ContactQRCreator';
+import ContactPageCreator from './components/ContactPageCreator';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -20,8 +21,18 @@ interface TabPanelProps {
 }
 
 /**
- * Component for displaying the two main functionalities of the app in separate
- * panels activated by clicking on tabs.
+ * Component for displaying the two main parts of the application in separate
+ * panels that can be switched by clicking on tabs.
+ *
+ * Parts are:
+ * 1) Create a QR code from contact information (static) and
+ * 2) Create a contact page and link to it with a QR code (dynamic).
+ *
+ * The first part can be called static because it just creates a QR code from
+ * the contact information and does not require any server-side processing.
+ * The second part is dynamic because it creates a contact page that is linked
+ * to with a QR code. The page is created dynamically and can be updated after
+ * the QR code is created.
  */
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -39,6 +50,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+// Setup a MUI theme.
 let theme = createTheme({
   palette: {
     background: {
@@ -46,9 +58,14 @@ let theme = createTheme({
     },
   },
 });
-
 theme = responsiveFontSizes(theme, { factor: 7, breakpoints: ['md'] });
 
+// Create a Zustand store as common state for both parts of the app.
+const useStore = createStore();
+
+/**
+ * Main application component.
+ */
 function App() {
   const [menuOption, setMenuOption] = useState(0);
 
@@ -76,24 +93,12 @@ function App() {
               >
                 <TabPanel value={menuOption} index={0}>
                   <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <ContactQRCreator />
+                    <ContactQRCreator useStore={useStore} />
                   </Box>
                 </TabPanel>
                 <TabPanel value={menuOption} index={1}>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    minHeight={{ xs: '100vh', md: 300 }}
-                  >
-                    <EngineeringIcon
-                      style={{
-                        color: 'black',
-                        marginRight: '1rem',
-                        fontSize: 100,
-                      }}
-                    />
-                    <Typography variant="h5">Work in progress ...</Typography>
+                  <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
+                    <ContactPageCreator useStore={useStore} />
                   </Box>
                 </TabPanel>
               </Box>

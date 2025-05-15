@@ -1,23 +1,19 @@
 import { Fragment, useEffect } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import VCard from 'vcard-creator';
-import { StoreApi, UseBoundStore } from 'zustand';
 import ContactForm from '../ContactForm';
 import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeString';
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
-import { Store } from '../../store';
-
-interface ContactQRCreatorProps {
-  useStore: UseBoundStore<StoreApi<Store>>;
-}
+import { useStore } from '../../store';
 
 /**
  * Component for creating a vCard QR code.
  *
  * @returns {JSX.Element} Rendered ContactQRCreator component.
  */
-export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
+export default function ContactQRCreator() {
+  const formValues = useStore((state) => state.staticFormValues);
   const contactInformation = useStore(
     (state) => state.staticContactInformation
   );
@@ -26,6 +22,7 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
+  const setFormValues = useStore((state) => state.setStaticFormValues);
   const setContactInformation = useStore(
     (state) => state.setStaticContactInformation
   );
@@ -34,6 +31,8 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
+
+  console.log('static');
 
   useEffect(() => {
     if (contactInformation) {
@@ -58,7 +57,7 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
     } else {
       setVCardString('');
     }
-  }, [contactInformation]);
+  }, [formValues]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -78,7 +77,7 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
   };
 
   const handleReset = () => {
-    setContactInformation(null);
+    setFormValues(null);
     setVCardBoxOpen(false);
     window.scrollTo(0, 0);
   };
@@ -101,7 +100,11 @@ export default function ContactQRCreator({ useStore }: ContactQRCreatorProps) {
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <ContactForm
+            formValues={formValues}
+            setFormValues={setFormValues}
             setContactInformation={setContactInformation}
+            elementIdToScrollTo={elementIdToScrollTo}
+            setElementIdToScrollTo={setElementIdToScrollTo}
             handleSubmit={handleSubmit}
             handleReset={handleReset}
           />

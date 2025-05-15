@@ -1,25 +1,19 @@
 import { Fragment, useEffect } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import VCard from 'vcard-creator';
-import { StoreApi, UseBoundStore } from 'zustand';
 import ContactForm from '../ContactForm';
 import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeString';
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
-import { Store } from '../../store';
-
-interface ContactPageCreatorProps {
-  useStore: UseBoundStore<StoreApi<Store>>;
-}
+import { useStore } from '../../store';
 
 /**
  * Component for creating a contact page that is linked to with a QR code.
  *
  * @returns {JSX.Element} Rendered ContactPageCreator component.
  */
-export default function ContactPageCreator({
-  useStore,
-}: ContactPageCreatorProps) {
+export default function ContactPageCreator() {
+  const formValues = useStore((state) => state.dynamicFormValues);
   const contactInformation = useStore(
     (state) => state.dynamicContactInformation
   );
@@ -28,14 +22,17 @@ export default function ContactPageCreator({
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
+  const setFormValues = useStore((state) => state.setDynamicFormValues);
   const setContactInformation = useStore(
     (state) => state.setDynamicContactInformation
   );
   const setVCardString = useStore((state) => state.setDynamicVCardString);
   const setVCardBoxOpen = useStore((state) => state.setDynamicVCardBoxOpen);
   const setElementIdToScrollTo = useStore(
-    (state) => state.setStaticElementIdToScrollTo
+    (state) => state.setDynamicElementIdToScrollTo
   );
+
+  console.log('dynamic');
 
   useEffect(() => {
     if (contactInformation) {
@@ -60,7 +57,7 @@ export default function ContactPageCreator({
     } else {
       setVCardString('');
     }
-  }, [contactInformation]);
+  }, [formValues]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,7 +77,7 @@ export default function ContactPageCreator({
   };
 
   const handleReset = () => {
-    setContactInformation(null);
+    setFormValues(null);
     setVCardBoxOpen(false);
     window.scrollTo(0, 0);
   };
@@ -98,12 +95,16 @@ export default function ContactPageCreator({
             variant="h5"
             style={{ margin: '1rem 1rem 1rem 0' }}
           >
-            Create a VCard QR-code
+            Create a contact page
           </Typography>
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <ContactForm
+            formValues={formValues}
+            setFormValues={setFormValues}
             setContactInformation={setContactInformation}
+            elementIdToScrollTo={elementIdToScrollTo}
+            setElementIdToScrollTo={setElementIdToScrollTo}
             handleSubmit={handleSubmit}
             handleReset={handleReset}
           />

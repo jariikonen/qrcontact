@@ -5,7 +5,6 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from '@mui/material/styles';
-import { createStore } from './store';
 import Header from './components/Header';
 import ContactQRCreator from './components/ContactQRCreator';
 import ContactPageCreator from './components/ContactPageCreator';
@@ -60,9 +59,6 @@ let theme = createTheme({
 });
 theme = responsiveFontSizes(theme, { factor: 7, breakpoints: ['md'] });
 
-// Create a Zustand store as common state for both parts of the app.
-const useStore = createStore();
-
 /**
  * Main application component.
  */
@@ -93,12 +89,12 @@ function App() {
               >
                 <TabPanel value={menuOption} index={0}>
                   <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <ContactQRCreator useStore={useStore} />
+                    <ContactQRCreator />
                   </Box>
                 </TabPanel>
                 <TabPanel value={menuOption} index={1}>
                   <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <ContactPageCreator useStore={useStore} />
+                    <ContactPageCreator />
                   </Box>
                 </TabPanel>
               </Box>

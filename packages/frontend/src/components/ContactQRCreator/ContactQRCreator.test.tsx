@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import ContactQRCreator from './index.tsx';
-import { createStore } from '../../store';
 
 // Stub for ResizeObserver
 vi.stubGlobal(
@@ -18,11 +17,9 @@ vi.stubGlobal('URL', {
   revokeObjectURL: vi.fn(),
 });
 
-const useStore = createStore();
-
 test('renders heading', () => {
-  render(<ContactQRCreator useStore={useStore} />);
+  render(<ContactQRCreator />);
 
-  const element = screen.getAllByText('Create a VCard QR-code');
+  const element = screen.getAllByText('Create a vCard QR code');
   expect(element).toBeDefined();
 });

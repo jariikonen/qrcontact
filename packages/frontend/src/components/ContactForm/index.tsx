@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
-import { Box, Button, Grid, TextField } from '@mui/material';
-import { useFieldArray, useForm, UseFormProps } from 'react-hook-form';
+import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
+import {
+  useFieldArray,
+  useForm,
+  UseFormProps,
+  useWatch,
+} from 'react-hook-form';
 import PhoneNumberInput from '../PhoneNumberInput';
 import { ContactFormValues } from './types';
 import { phoneNumberTypeOptions } from '../PhoneNumberInput';
@@ -71,18 +76,19 @@ export default function ContactForm({
     control,
     reset,
     watch,
+    setError,
+    clearErrors,
   } = useForm<ContactFormValues>(formProps);
 
   // Watch for all values in RHF state and store changes in the formValues
   // state variable.
   useEffect(() => {
     const subscription = watch((data) => {
-      console.log('storing form values', data);
       setFormValues(data as Partial<ContactFormValues>);
     });
 
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, []);
 
   // Workaround for the RHF useFieldArray's insert function's focusName not
   // working properly with MUI checkbox.
@@ -106,13 +112,31 @@ export default function ContactForm({
     control,
   });
 
-  // Function to handle the resetting of the form
+  // Watch for changes in the phone number inputs so that the number of
+  // preferred phone numbers can be validated.
+  const phoneNumbers = useWatch({
+    control,
+    name: 'phone',
+  });
+
+  // Allow only one phone number to be marked as preferred.
+  useEffect(() => {
+    const preferredCount = phoneNumbers.filter((p) => p.preferred).length;
+    if (preferredCount > 1) {
+      setError('phone', {
+        type: 'manual',
+        message: 'Only one phone number can be marked as preferred.',
+      });
+    } else {
+      clearErrors('phone');
+    }
+  }, [phoneNumbers]);
+
   function handleReset() {
     reset();
     handleResetOutside();
   }
 
-  // Function to handle the insertion of a new phone number input
   function handleInsert(id: number) {
     insert(id, {
       preferred: false,
@@ -166,9 +190,15 @@ export default function ContactForm({
                 handleInsert={() => handleInsert(index + 1)}
                 remove={remove}
                 index={index}
+                externalErrors={errors}
               />
             );
           })}
+          {errors.phone && (
+            <Grid item xs={12}>
+              <FormHelperText error>{errors.phone.message}</FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12}>
             <Button variant="contained" type="submit">
               Create

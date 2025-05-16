@@ -32,8 +32,6 @@ export default function ContactQRCreator() {
     (state) => state.setStaticElementIdToScrollTo
   );
 
-  console.log('static');
-
   useEffect(() => {
     if (contactInformation) {
       const vCardObject = new VCard();

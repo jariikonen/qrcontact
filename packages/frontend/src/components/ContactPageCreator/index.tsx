@@ -32,8 +32,6 @@ export default function ContactPageCreator() {
     (state) => state.setDynamicElementIdToScrollTo
   );
 
-  console.log('dynamic');
-
   useEffect(() => {
     if (contactInformation) {
       const vCardObject = new VCard();

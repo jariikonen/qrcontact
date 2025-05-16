@@ -21,12 +21,14 @@ import {
   Control,
   Controller,
   FieldArrayWithId,
+  FieldErrors,
   FieldValues,
   Path,
   UseFieldArrayRemove,
 } from 'react-hook-form';
 import { PhoneNumberType, PhoneNumberTypeOption } from './types';
 import { matchSorter } from 'match-sorter';
+import { ContactFormValues } from '../ContactForm/types';
 
 function getScreenWidth() {
   const { innerWidth: width } = window;
@@ -66,6 +68,9 @@ export interface PhoneNumberInputProps<T extends FieldValues> {
 
   /** Function for removing a phone number input. */
   remove: UseFieldArrayRemove;
+
+  /** Form errors set on the outside. */
+  externalErrors: FieldErrors<ContactFormValues>;
 }
 
 /**
@@ -84,6 +89,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
   field,
   handleInsert,
   remove,
+  externalErrors,
 }: PhoneNumberInputProps<T>) {
   const [phoneError, setPhoneError] = useState('');
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -177,6 +183,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                         checked={value}
                         onChange={onChange}
                         id={`phone.${index}.preferredCheckbox`}
+                        color={externalErrors?.phone ? 'error' : 'primary'}
                       />
                     }
                     label="Preferred"
@@ -248,7 +255,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                 }}
                 value={value}
                 onChange={onChange}
-                errorMessageDisplay="none"
+                errorMessageDisplay="status"
                 onError={(error) => handlePhoneNumberInputError(error)}
               />
             )}

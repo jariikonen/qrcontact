@@ -174,7 +174,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                     control={
                       <Checkbox
                         sx={{ mt: '0.25rem' }}
-                        value={value}
+                        checked={value}
                         onChange={onChange}
                         id={`phone.${index}.preferredCheckbox`}
                       />

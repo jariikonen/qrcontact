@@ -20,12 +20,6 @@ export interface ContactFormProps {
   /** Function for setting the contact information state variable. */
   setContactInformation: (contactInformation: ContactFormValues | null) => void;
 
-  /** State variable containing id of an element that should be focused to. */
-  elementIdToScrollTo: string | null;
-
-  /** Function for setting ElementIdToScrollTo state variable. */
-  setElementIdToScrollTo: (elementId: string | null) => void;
-
   /** Callback function that is executed when the form is submitted. */
   handleSubmit: () => void;
 
@@ -43,8 +37,6 @@ export default function ContactForm({
   formSelector,
   setFormValues,
   setContactInformation,
-  elementIdToScrollTo,
-  setElementIdToScrollTo,
   handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
 }: ContactFormProps) {
@@ -71,18 +63,6 @@ export default function ContactForm({
     name: 'phone',
     control,
     shouldUnregister: false,
-  });
-
-  // Workaround for RHF useFieldArray's insert function's focusName not
-  // working properly with MUI checkbox.
-  useEffect(() => {
-    if (elementIdToScrollTo) {
-      document.getElementById(`phone.${elementIdToScrollTo}`)?.scrollIntoView();
-      document
-        .getElementById(`phone.${elementIdToScrollTo}.preferredCheckbox`)
-        ?.focus();
-      setElementIdToScrollTo(null);
-    }
   });
 
   // Watch for changes in the phone number inputs so that the number of
@@ -116,7 +96,6 @@ export default function ContactForm({
       type: phoneNumberTypeOptions[0],
       number: '',
     });
-    setElementIdToScrollTo(id.toString());
   }
 
   function onSubmit(data: ContactFormValues) {

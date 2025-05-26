@@ -106,8 +106,6 @@ export default function ContactQRCreator() {
             formSelector={formSelector}
             setFormValues={setFormValues}
             setContactInformation={setContactInformation}
-            elementIdToScrollTo={elementIdToScrollTo}
-            setElementIdToScrollTo={setElementIdToScrollTo}
             handleSubmit={handleSubmit}
             handleReset={handleReset}
           />

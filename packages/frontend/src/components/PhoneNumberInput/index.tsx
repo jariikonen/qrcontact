@@ -173,7 +173,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
           <Controller
             name={namePreferred}
             control={control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value, ref } }) => (
               <Box
                 minWidth={screenWidth < 390 ? '10rem' : 'auto'}
                 sx={{ display: fields.length > 1 ? 'block' : 'none' }}
@@ -185,6 +185,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                       checked={value}
                       onChange={onChange}
                       id={`phone.${index}.preferredCheckbox`}
+                      inputRef={ref}
                       color={externalErrors?.phone ? 'error' : 'primary'}
                     />
                   }

@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
 import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
-import {
-  useFieldArray,
-  useForm,
-  UseFormProps,
-  useWatch,
-} from 'react-hook-form';
+import { useFieldArray, useWatch } from 'react-hook-form';
 import PhoneNumberInput from '../PhoneNumberInput';
-import { ContactFormValues } from './types';
+import {
+  ContactFormValues,
+  defaultContactFormValues as defaultValues,
+} from './types';
 import { phoneNumberTypeOptions } from '../PhoneNumberInput';
+import { Store, useStore } from '../../store';
+import { useFormWithStore } from '@jariikonen/zustand-rhf-sync';
 
 export interface ContactFormProps {
-  /** State variable containing the form values. */
-  formValues: Partial<ContactFormValues> | null;
+  /** Function for selecting form values from the full store state. */
+  formSelector: (state: Store) => ContactFormValues;
 
   /** Function for setting the form values state variable. */
-  setFormValues: (formValues: Partial<ContactFormValues> | null) => void;
+  setFormValues: (formValues: ContactFormValues) => void;
 
   /** Function for setting the contact information state variable. */
-  setContactInformation: (contactInformation: ContactFormValues) => void;
+  setContactInformation: (contactInformation: ContactFormValues | null) => void;
 
   /** State variable containing id of an element that should be focused to. */
   elementIdToScrollTo: string | null;
@@ -40,7 +40,7 @@ export interface ContactFormProps {
  * @returns {JSX.Element} Rendered ContactForm component.
  */
 export default function ContactForm({
-  formValues,
+  formSelector,
   setFormValues,
   setContactInformation,
   elementIdToScrollTo,
@@ -48,59 +48,20 @@ export default function ContactForm({
   handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
 }: ContactFormProps) {
-  // Default props for useForm.
-  const defaultProps: UseFormProps<ContactFormValues> = {
-    mode: 'onChange',
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      phone: [
-        { preferred: false, type: phoneNumberTypeOptions[0], number: '' },
-      ],
-    },
-  };
-
-  // Use form values from the state if they exist.
-  const formProps = formValues
-    ? {
-        ...defaultProps,
-        defaultValues: formValues,
-      }
-    : defaultProps;
-
-  // Set up the form using React Hook Form's useForm hook
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
     reset,
-    watch,
     setError,
     clearErrors,
-  } = useForm<ContactFormValues>(formProps);
-
-  // Watch for all values in RHF state and store changes in the formValues
-  // state variable.
-  useEffect(() => {
-    const subscription = watch((data) => {
-      setFormValues(data as Partial<ContactFormValues>);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  // Workaround for the RHF useFieldArray's insert function's focusName not
-  // working properly with MUI checkbox.
-  useEffect(() => {
-    if (elementIdToScrollTo) {
-      document.getElementById(`phone.${elementIdToScrollTo}`)?.scrollIntoView();
-      document
-        .getElementById(`phone.${elementIdToScrollTo}.preferredCheckbox`)
-        ?.focus();
-      setElementIdToScrollTo(null);
-    }
-  });
+  } = useFormWithStore<Store, ContactFormValues>(
+    useStore,
+    setFormValues,
+    formSelector,
+    { mode: 'onChange', reValidateMode: 'onChange' }
+  );
 
   // Set up the field array for dynamic creation of phone number inputs
   const {
@@ -110,6 +71,19 @@ export default function ContactForm({
   } = useFieldArray({
     name: 'phone',
     control,
+    shouldUnregister: false,
+  });
+
+  // Workaround for RHF useFieldArray's insert function's focusName not
+  // working properly with MUI checkbox.
+  useEffect(() => {
+    if (elementIdToScrollTo) {
+      document.getElementById(`phone.${elementIdToScrollTo}`)?.scrollIntoView();
+      document
+        .getElementById(`phone.${elementIdToScrollTo}.preferredCheckbox`)
+        ?.focus();
+      setElementIdToScrollTo(null);
+    }
   });
 
   // Watch for changes in the phone number inputs so that the number of
@@ -133,7 +107,7 @@ export default function ContactForm({
   }, [phoneNumbers]);
 
   function handleReset() {
-    reset();
+    reset(defaultValues);
     handleResetOutside();
   }
 
@@ -146,14 +120,14 @@ export default function ContactForm({
     setElementIdToScrollTo(id.toString());
   }
 
+  function onSubmit(data: ContactFormValues) {
+    setContactInformation(data);
+    handleSubmitOutside();
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <form
-        onSubmit={handleSubmit((data) => {
-          setContactInformation(data);
-          handleSubmitOutside();
-        })}
-      >
+      <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
           <Grid item xs={12}>
             <TextField
@@ -205,7 +179,7 @@ export default function ContactForm({
             </Button>
             <Button
               variant="contained"
-              type="reset"
+              type="button"
               sx={{ ml: '0.5rem' }}
               onClick={handleReset}
             >

@@ -5,7 +5,8 @@ import ContactForm from '../ContactForm';
 import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeString';
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
-import { useStore } from '../../store';
+import { Store, useStore } from '../../store';
+import { defaultContactFormValues } from '../ContactForm/types';
 
 /**
  * Component for creating a contact page that is linked to with a QR code.
@@ -13,14 +14,18 @@ import { useStore } from '../../store';
  * @returns {JSX.Element} Rendered ContactPageCreator component.
  */
 export default function ContactPageCreator() {
-  const formValues = useStore((state) => state.dynamicFormValues);
+  const formSelector = (state: Store) => ({
+    firstName: state.dynamicFormValues.firstName,
+    lastName: state.dynamicFormValues.lastName,
+    phone: state.dynamicFormValues.phone,
+  });
   const contactInformation = useStore(
     (state) => state.dynamicContactInformation
   );
   const vCardString = useStore((state) => state.dynamicVCardString);
   const vCardBoxOpen = useStore((state) => state.dynamicVCardBoxOpen);
   const elementIdToScrollTo = useStore(
-    (state) => state.staticElementIdToScrollTo
+    (state) => state.dynamicElementIdToScrollTo
   );
   const setFormValues = useStore((state) => state.setDynamicFormValues);
   const setContactInformation = useStore(
@@ -55,7 +60,7 @@ export default function ContactPageCreator() {
     } else {
       setVCardString('');
     }
-  }, [formValues]);
+  }, [contactInformation]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,7 +80,7 @@ export default function ContactPageCreator() {
   };
 
   const handleReset = () => {
-    setFormValues(null);
+    setFormValues(defaultContactFormValues);
     setVCardBoxOpen(false);
     window.scrollTo(0, 0);
   };
@@ -98,7 +103,7 @@ export default function ContactPageCreator() {
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <ContactForm
-            formValues={formValues}
+            formSelector={formSelector}
             setFormValues={setFormValues}
             setContactInformation={setContactInformation}
             elementIdToScrollTo={elementIdToScrollTo}

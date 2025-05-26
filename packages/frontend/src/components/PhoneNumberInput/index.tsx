@@ -170,37 +170,38 @@ export default function PhoneNumberInput<T extends FieldValues>({
             borderRadius: { xs: '0.7rem', md: 0 },
           }}
         >
-          {fields.length > 1 && (
-            <Controller
-              name={namePreferred}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Box minWidth={screenWidth < 390 ? '10rem' : 'auto'}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        sx={{ mt: '0.25rem' }}
-                        checked={value}
-                        onChange={onChange}
-                        id={`phone.${index}.preferredCheckbox`}
-                        color={externalErrors?.phone ? 'error' : 'primary'}
-                      />
-                    }
-                    label="Preferred"
-                    labelPlacement="start"
-                    slotProps={{
-                      typography: {
-                        variant: 'caption',
-                        sx: { mt: '0.25rem' },
-                      },
-                    }}
-                    sx={{ ml: 0, mr: 0 }}
-                    hidden={fields.length === 1}
-                  />
-                </Box>
-              )}
-            />
-          )}
+          <Controller
+            name={namePreferred}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Box
+                minWidth={screenWidth < 390 ? '10rem' : 'auto'}
+                sx={{ display: fields.length > 1 ? 'block' : 'none' }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{ mt: '0.25rem' }}
+                      checked={value}
+                      onChange={onChange}
+                      id={`phone.${index}.preferredCheckbox`}
+                      color={externalErrors?.phone ? 'error' : 'primary'}
+                    />
+                  }
+                  label="Preferred"
+                  labelPlacement="start"
+                  slotProps={{
+                    typography: {
+                      variant: 'caption',
+                      sx: { mt: '0.25rem' },
+                    },
+                  }}
+                  sx={{ ml: 0, mr: 0 }}
+                  hidden={fields.length === 1}
+                />
+              </Box>
+            )}
+          />
           <Controller
             name={nameType}
             control={control}

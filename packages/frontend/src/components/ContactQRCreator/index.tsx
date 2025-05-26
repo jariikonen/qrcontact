@@ -5,7 +5,8 @@ import ContactForm from '../ContactForm';
 import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeString';
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
-import { useStore } from '../../store';
+import { Store, useStore } from '../../store';
+import { defaultContactFormValues } from '../ContactForm/types';
 
 /**
  * Component for creating a vCard QR code.
@@ -13,7 +14,11 @@ import { useStore } from '../../store';
  * @returns {JSX.Element} Rendered ContactQRCreator component.
  */
 export default function ContactQRCreator() {
-  const formValues = useStore((state) => state.staticFormValues);
+  const formSelector = (state: Store) => ({
+    firstName: state.staticFormValues.firstName,
+    lastName: state.staticFormValues.lastName,
+    phone: state.staticFormValues.phone,
+  });
   const contactInformation = useStore(
     (state) => state.staticContactInformation
   );
@@ -55,7 +60,7 @@ export default function ContactQRCreator() {
     } else {
       setVCardString('');
     }
-  }, [formValues]);
+  }, [contactInformation]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,7 +80,7 @@ export default function ContactQRCreator() {
   };
 
   const handleReset = () => {
-    setFormValues(null);
+    setFormValues(defaultContactFormValues);
     setVCardBoxOpen(false);
     window.scrollTo(0, 0);
   };
@@ -98,7 +103,7 @@ export default function ContactQRCreator() {
         </Grid>
         <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
           <ContactForm
-            formValues={formValues}
+            formSelector={formSelector}
             setFormValues={setFormValues}
             setContactInformation={setContactInformation}
             elementIdToScrollTo={elementIdToScrollTo}

@@ -16,6 +16,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.5",
+    "@jariikonen/zustand-rhf-sync": "^0.0.10",
     "@mui/icons-material": "^5",
     "@mui/material": "^5",
     "match-sorter": "^8.0.0",

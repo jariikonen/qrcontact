@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
-import { useFieldArray, useWatch } from 'react-hook-form';
+import { Controller, useFieldArray, useWatch } from 'react-hook-form';
 import PhoneNumberInput from '../PhoneNumberInput';
 import {
   ContactFormValues,
@@ -49,7 +49,6 @@ export default function ContactForm({
   handleReset: handleResetOutside,
 }: ContactFormProps) {
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,
@@ -130,25 +129,37 @@ export default function ContactForm({
       <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
           <Grid item xs={12}>
-            <TextField
-              error={typeof errors.firstName !== 'undefined'}
-              label="First name *"
-              fullWidth
-              {...register('firstName', {
-                required: 'First name is required.',
-              })}
-              helperText={errors.firstName?.message}
+            <Controller
+              name={'firstName'}
+              control={control}
+              rules={{ required: 'First name is required.' }}
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  error={typeof errors.firstName !== 'undefined'}
+                  label="First name *"
+                  fullWidth
+                  onChange={onChange}
+                  value={value}
+                  helperText={errors.firstName?.message}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              error={typeof errors.lastName !== 'undefined'}
-              label="Last name *"
-              fullWidth
-              {...register('lastName', {
-                required: 'Last name is required.',
-              })}
-              helperText={errors.lastName?.message}
+            <Controller
+              name={'lastName'}
+              control={control}
+              rules={{ required: 'Last name is required.' }}
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  error={typeof errors.lastName !== 'undefined'}
+                  label="Last name *"
+                  fullWidth
+                  onChange={onChange}
+                  value={value}
+                  helperText={errors.lastName?.message}
+                />
+              )}
             />
           </Grid>
           {phoneFields.map((field, index) => {

@@ -9,6 +9,6 @@
     "packages/backend"
   ],
   "scripts": {
-    "cleanup": "rm -rf node_nodules && npm run cleanup -w qrcontact-frontend"
+    "cleanup": "rm -rf ./node_modules && npm run cleanup -w frontend"
   }
 }

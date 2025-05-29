@@ -35,7 +35,7 @@ export const QRCodeBitmap = ({
     if (elem) {
       setCanvasElement(elem);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (canvasElement) {

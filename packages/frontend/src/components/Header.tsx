@@ -133,8 +133,10 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
           onChange={handleTabSelection}
           aria-label="main function selection"
         >
-          <Tab label={MENU_TEXT_STATIC} {...a11yProps(0)} />
-          <Tab label={MENU_TEXT_DYNAMIC} {...a11yProps(1)} />
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Tab label={MENU_TEXT_STATIC} {...a11yProps(0)} />{' '}
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Tab label={MENU_TEXT_DYNAMIC} {...a11yProps(1)} />{' '}
         </Tabs>
       </Grid>
     </Fragment>

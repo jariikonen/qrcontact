@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Autocomplete,
@@ -26,20 +27,15 @@ import {
   Path,
   UseFieldArrayRemove,
 } from 'react-hook-form';
-import { PhoneNumberType, PhoneNumberTypeOption } from './types';
+import { PhoneNumberTypeOption } from './types';
 import { matchSorter } from 'match-sorter';
 import { ContactFormValues } from '../ContactForm/types';
+import { phoneNumberTypeOptions } from './constants';
 
 function getScreenWidth() {
   const { innerWidth: width } = window;
   return width;
 }
-
-export const phoneNumberTypeOptions: PhoneNumberTypeOption[] = [
-  { label: 'Other', value: PhoneNumberType.Other },
-  { label: 'Home', value: PhoneNumberType.Home },
-  { label: 'Work', value: PhoneNumberType.Work },
-];
 
 export interface PhoneNumberInputProps<T extends FieldValues> {
   /** Control object from react-hook-form. */
@@ -125,7 +121,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
 
   // Handler for the phone number type change events.
   const handleTypeChange = (
-    onChange: (...event: any[]) => void,
+    onChange: (...event: any[]) => void, // eslint-disable-line @typescript-eslint/no-explicit-any
     value: PhoneNumberTypeOption | PhoneNumberTypeOption[]
   ) => {
     onChange(value);
@@ -213,7 +209,12 @@ export default function PhoneNumberInput<T extends FieldValues>({
                 renderInput={(params) => <TextField {...params} label="Type" />}
                 getOptionLabel={(option) => option.label}
                 renderOption={(props, option) => {
-                  const { key, ...optionProps } = props;
+                  // TODO: Props should not need to be cast - REMOVE the cast after
+                  // moving to newer MUI version.
+                  const { key, ...optionProps } =
+                    props as React.HTMLAttributes<HTMLLIElement> & {
+                      key: string;
+                    };
                   return (
                     <Box component="li" key={key} {...optionProps}>
                       {option.label}

@@ -13,7 +13,7 @@ export default function getSVGDownloadHref({
   size = 128,
   errorCorrectionLevel = 'L',
 }: QRCodeProps): string {
-  let svgStr =
+  const svgStr =
     '<?xml version="1.0" standalone="no"?>' +
     renderToString(
       <svg

@@ -6,7 +6,7 @@ import {
   ContactFormValues,
   defaultContactFormValues as defaultValues,
 } from './types';
-import { phoneNumberTypeOptions } from '../PhoneNumberInput';
+import { phoneNumberTypeOptions } from '../PhoneNumberInput/constants';
 import { Store, useStore } from '../../store';
 import { useFormWithStore } from '@jariikonen/zustand-rhf-sync';
 
@@ -83,7 +83,7 @@ export default function ContactForm({
     } else {
       clearErrors('phone');
     }
-  }, [phoneNumbers]);
+  }, [clearErrors, phoneNumbers, setError]);
 
   function handleReset() {
     reset(defaultValues);

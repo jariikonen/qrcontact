@@ -16,7 +16,7 @@ export interface VCardBoxProps {
   setVCardBoxOpen: (vCardBoxOpen: boolean) => void;
 
   /** Callback function that is executed when the box is opened. */
-  handleBoxOpen?: () => void;
+  handleBoxOpen: () => void;
 }
 
 /**

@@ -21,7 +21,7 @@ export const QRCodeVector = ({
     setDownloadHref(
       getSVGDownloadHref({ content, size, errorCorrectionLevel })
     );
-  }, [content, setDownloadHref]);
+  }, [content, errorCorrectionLevel, setDownloadHref, size]);
 
   return (
     <Box display={hidden ? 'none' : 'block'}>

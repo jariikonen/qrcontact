@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import VCard from 'vcard-creator';
 import ContactForm from '../ContactForm';
@@ -60,7 +60,7 @@ export default function ContactQRCreator() {
     } else {
       setVCardString('');
     }
-  }, [contactInformation]);
+  }, [contactInformation, setVCardString]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -73,7 +73,7 @@ export default function ContactQRCreator() {
         setElementIdToScrollTo(null);
       }
     }, 100);
-  }, [elementIdToScrollTo]);
+  }, [elementIdToScrollTo, setElementIdToScrollTo]);
 
   const handleSubmit = () => {
     setElementIdToScrollTo('vcard-display');
@@ -90,39 +90,37 @@ export default function ContactQRCreator() {
   };
 
   return (
-    <Fragment>
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography
-            align="left"
-            variant="h5"
-            style={{ margin: '1rem 1rem 1rem 0' }}
-          >
-            Create a vCard QR code
-          </Typography>
-        </Grid>
-        <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
-          <ContactForm
-            formSelector={formSelector}
-            setFormValues={setFormValues}
-            setContactInformation={setContactInformation}
-            handleSubmit={handleSubmit}
-            handleReset={handleReset}
-          />
-        </Grid>
-        <Grid item lg={5} xs={12} display={'flex'} alignContent={'center'}>
-          <Stack spacing={2} direction={'column'} display={'flex'} flexGrow={1}>
-            <QRCodeDisplay content={vCardString} />
-            <VCardDisplay
-              vCardString={vCardString}
-              setVCardString={setVCardString}
-              vCardBoxOpen={vCardBoxOpen}
-              setVCardBoxOpen={setVCardBoxOpen}
-              handleBoxOpen={handleVCardBoxOpen}
-            />
-          </Stack>
-        </Grid>
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography
+          align="left"
+          variant="h5"
+          style={{ margin: '1rem 1rem 1rem 0' }}
+        >
+          Create a vCard QR code
+        </Typography>
       </Grid>
-    </Fragment>
+      <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
+        <ContactForm
+          formSelector={formSelector}
+          setFormValues={setFormValues}
+          setContactInformation={setContactInformation}
+          handleSubmit={handleSubmit}
+          handleReset={handleReset}
+        />
+      </Grid>
+      <Grid item lg={5} xs={12} display={'flex'} alignContent={'center'}>
+        <Stack spacing={2} direction={'column'} display={'flex'} flexGrow={1}>
+          <QRCodeDisplay content={vCardString} />
+          <VCardDisplay
+            vCardString={vCardString}
+            setVCardString={setVCardString}
+            vCardBoxOpen={vCardBoxOpen}
+            setVCardBoxOpen={setVCardBoxOpen}
+            handleBoxOpen={handleVCardBoxOpen}
+          />
+        </Stack>
+      </Grid>
+    </Grid>
   );
 }

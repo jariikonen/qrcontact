@@ -1,4 +1,4 @@
-import { phoneNumberTypeOptions } from '../PhoneNumberInput';
+import { phoneNumberTypeOptions } from '../PhoneNumberInput/constants';
 import { PhoneNumberTypeOption } from '../PhoneNumberInput/types';
 
 export interface ContactFormValues {

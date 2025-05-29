@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Container, CssBaseline, Grid, Box } from '@mui/material';
 import {
   createTheme,
@@ -10,7 +10,7 @@ import ContactQRCreator from './components/ContactQRCreator';
 import ContactPageCreator from './components/ContactPageCreator';
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 
   /** Index of the current panel. */
   index: number;
@@ -42,7 +42,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
-      {...other}
+      {...other} // eslint-disable-line react/jsx-props-no-spreading
     >
       {value === index && <Box sx={{ p: '1rem' }}>{children}</Box>}
     </div>
@@ -66,43 +66,41 @@ function App() {
   const [menuOption, setMenuOption] = useState(0);
 
   return (
-    <Fragment>
-      <ThemeProvider theme={theme}>
-        <Container
-          maxWidth="lg"
-          sx={{
-            bgcolor: '#e0f7fa',
-            pb: { xs: 0, md: '6rem' },
-            px: { xs: 0, md: '2rem' },
-          }}
-        >
-          <CssBaseline />
-          <Grid container spacing={0} direction="column">
-            <Header menuOption={menuOption} setMenuOption={setMenuOption} />
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  width: '100%',
-                  bgcolor: 'white',
-                  borderRadius: { xs: 0, md: '1rem' },
-                }}
-              >
-                <TabPanel value={menuOption} index={0}>
-                  <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <ContactQRCreator />
-                  </Box>
-                </TabPanel>
-                <TabPanel value={menuOption} index={1}>
-                  <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
-                    <ContactPageCreator />
-                  </Box>
-                </TabPanel>
-              </Box>
-            </Grid>
+    <ThemeProvider theme={theme}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          bgcolor: '#e0f7fa',
+          pb: { xs: 0, md: '6rem' },
+          px: { xs: 0, md: '2rem' },
+        }}
+      >
+        <CssBaseline />
+        <Grid container spacing={0} direction="column">
+          <Header menuOption={menuOption} setMenuOption={setMenuOption} />
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                width: '100%',
+                bgcolor: 'white',
+                borderRadius: { xs: 0, md: '1rem' },
+              }}
+            >
+              <TabPanel value={menuOption} index={0}>
+                <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
+                  <ContactQRCreator />
+                </Box>
+              </TabPanel>
+              <TabPanel value={menuOption} index={1}>
+                <Box minHeight={{ xs: '100vh', md: 300 }} p={'1rem 1.5rem'}>
+                  <ContactPageCreator />
+                </Box>
+              </TabPanel>
+            </Box>
           </Grid>
-        </Container>
-      </ThemeProvider>
-    </Fragment>
+        </Grid>
+      </Container>
+    </ThemeProvider>
   );
 }
 

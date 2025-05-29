@@ -3,7 +3,7 @@ import { ContactFormValues } from './components/ContactForm/types';
 import { defaultContactFormValues } from './components/ContactForm/types';
 import { devtools } from 'zustand/middleware';
 
-export type Store = {
+export interface Store {
   staticFormValues: ContactFormValues;
   staticContactInformation: ContactFormValues | null;
   staticVCardString: string;
@@ -28,7 +28,7 @@ export type Store = {
   setDynamicVCardString: (vCardString: string) => void;
   setDynamicVCardBoxOpen: (vCardBoxOpen: boolean) => void;
   setDynamicElementIdToScrollTo: (elementId: string | null) => void;
-};
+}
 
 export const useStore = create<Store>()(
   devtools((set) => ({

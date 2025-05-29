@@ -1,23 +1,22 @@
-import js from '@eslint/js';
-import globals from 'globals';
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
-import vitestGlobals from 'eslint-plugin-vitest-globals';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['eslint.config.mjs', 'dist'] },
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
+  reactHooks.configs['recommended-latest'],
+  reactRefresh.configs.recommended,
+  jsxA11y.flatConfigs.recommended,
+  eslintConfigPrettier,
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
-      vitestGlobals.configs.recommended,
-    ],
-    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -25,9 +24,6 @@ export default tseslint.config(
     },
     plugins: {
       react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      'vitest-globals': vitestGlobals,
     },
     settings: {
       react: {
@@ -37,25 +33,16 @@ export default tseslint.config(
     rules: {
       ...react.configs.flat.recommended.rules,
       ...react.configs.flat['jsx-runtime'].rules,
-      ...reactHooks.configs['recommended-latest'].rules,
-      'react/jsx-props-no-spreading': ['error'],
+      'react/jsx-props-no-spreading': ['warn'],
       'react/jsx-no-useless-fragment': ['error'],
-      'react/react-in-jsx-scope': 0,
+      'react/react-in-jsx-scope': 'off',
       'react/require-default-props': [
         'error',
         {
           functions: 'defaultArguments',
         },
       ],
-      'react-refresh/only-export-components': [
-        'warn',
-        {
-          allowConstantExport: true,
-        },
-      ],
-    },
-    env: {
-      'vitest-globals/env': true,
+      'react/prop-types': 'off',
     },
   }
 );

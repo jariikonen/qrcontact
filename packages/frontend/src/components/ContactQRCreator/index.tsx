@@ -6,7 +6,10 @@ import getPhoneNumberTypeString from '../PhoneNumberInput/getPhoneNumberTypeStri
 import QRCodeDisplay from '../QRCodeDisplay';
 import VCardDisplay from '../VCardDisplay';
 import { Store, useStore } from '../../store';
-import { defaultContactFormValues } from '../ContactForm/types';
+import {
+  ContactFormValues,
+  defaultContactFormValues,
+} from '../ContactForm/types';
 
 /**
  * Component for creating a vCard QR code.
@@ -19,8 +22,9 @@ export default function ContactQRCreator() {
     lastName: state.staticFormValues.lastName,
     phone: state.staticFormValues.phone,
   });
-  const contactInformation = useStore(
-    (state) => state.staticContactInformation
+
+  const contactFormSubmitLabel = useStore(
+    (state) => state.staticContactFormSubmitLabel
   );
   const vCardString = useStore((state) => state.staticVCardString);
   const vCardBoxOpen = useStore((state) => state.staticVCardBoxOpen);
@@ -31,36 +35,32 @@ export default function ContactQRCreator() {
   const setContactInformation = useStore(
     (state) => state.setStaticContactInformation
   );
+  const setContactFormSubmitLabel = useStore(
+    (state) => state.setStaticContactFormSubmitLabel
+  );
   const setVCardString = useStore((state) => state.setStaticVCardString);
   const setVCardBoxOpen = useStore((state) => state.setStaticVCardBoxOpen);
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
 
-  useEffect(() => {
-    if (contactInformation) {
-      const vCardObject = new VCard();
+  function createVCardString(formValues: ContactFormValues) {
+    const vCardObject = new VCard();
 
-      vCardObject.addName(
-        contactInformation.lastName,
-        contactInformation.firstName
+    vCardObject.addName(formValues.lastName, formValues.firstName);
+    formValues.phone.forEach((phone) => {
+      if (!phone.number) {
+        return;
+      }
+      const phoneTypeStr = getPhoneNumberTypeString(
+        phone.type,
+        phone.preferred
       );
-      contactInformation.phone.forEach((phone) => {
-        if (!phone.number) {
-          return;
-        }
-        const phoneTypeStr = getPhoneNumberTypeString(
-          phone.type,
-          phone.preferred
-        );
-        vCardObject.addPhoneNumber(phone.number, phoneTypeStr);
-      });
+      vCardObject.addPhoneNumber(phone.number, phoneTypeStr);
+    });
 
-      setVCardString(vCardObject.toString().trim());
-    } else {
-      setVCardString('');
-    }
-  }, [contactInformation, setVCardString]);
+    return vCardObject.toString().trim();
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,13 +75,19 @@ export default function ContactQRCreator() {
     }, 100);
   }, [elementIdToScrollTo, setElementIdToScrollTo]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (formValues: ContactFormValues) => {
+    setContactInformation(formValues);
+    setVCardString(createVCardString(formValues));
     setElementIdToScrollTo('vcard-display');
+    setContactFormSubmitLabel('Update');
   };
 
   const handleReset = () => {
     setFormValues(defaultContactFormValues);
+    setContactInformation(null);
+    setVCardString('');
     setVCardBoxOpen(false);
+    setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
   };
 
@@ -104,9 +110,9 @@ export default function ContactQRCreator() {
         <ContactForm
           formSelector={formSelector}
           setFormValues={setFormValues}
-          setContactInformation={setContactInformation}
           handleSubmit={handleSubmit}
           handleReset={handleReset}
+          submitLabel={contactFormSubmitLabel}
         />
       </Grid>
       <Grid item lg={5} xs={12} display={'flex'} alignContent={'center'}>

@@ -17,14 +17,14 @@ export interface ContactFormProps {
   /** Function for setting the form values state variable. */
   setFormValues: (formValues: ContactFormValues) => void;
 
-  /** Function for setting the contact information state variable. */
-  setContactInformation: (contactInformation: ContactFormValues | null) => void;
-
   /** Callback function that is executed when the form is submitted. */
-  handleSubmit: () => void;
+  handleSubmit: (formValues: ContactFormValues) => void;
 
   /** Callback function that is executed when the form is reset. */
   handleReset: () => void;
+
+  /** Label for the submit button. */
+  submitLabel: string;
 }
 
 /**
@@ -36,9 +36,9 @@ export interface ContactFormProps {
 export default function ContactForm({
   formSelector,
   setFormValues,
-  setContactInformation,
   handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
+  submitLabel,
 }: ContactFormProps) {
   const {
     handleSubmit,
@@ -98,14 +98,9 @@ export default function ContactForm({
     });
   }
 
-  function onSubmit(data: ContactFormValues) {
-    setContactInformation(data);
-    handleSubmitOutside();
-  }
-
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
+      <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
           <Grid item xs={12}>
             <Controller
@@ -165,7 +160,7 @@ export default function ContactForm({
           )}
           <Grid item xs={12}>
             <Button variant="contained" type="submit">
-              Create
+              {submitLabel}
             </Button>
             <Button
               variant="contained"

@@ -102,7 +102,7 @@ export default function ContactForm({
     <Box sx={{ flexGrow: 1 }}>
       <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Controller
               name={'firstName'}
               control={control}
@@ -119,7 +119,7 @@ export default function ContactForm({
               )}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Controller
               name={'lastName'}
               control={control}
@@ -154,11 +154,11 @@ export default function ContactForm({
             );
           })}
           {errors.phone && (
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormHelperText error>{errors.phone.message}</FormHelperText>
             </Grid>
           )}
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Button variant="contained" type="submit">
               {submitLabel}
             </Button>

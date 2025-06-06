@@ -143,15 +143,14 @@ export default function PhoneNumberInput<T extends FieldValues>({
   return (
     <Fragment key={field.id}>
       <Grid
-        item
-        xs={12}
+        size={{ xs: 12 }}
         sx={{ display: { xs: 'block', md: 'none' } }}
         mt={'0.4rem'}
         mb={'0.2rem'}
       >
         <FormLabel sx={{ fontSize: '0.9rem' }}>Phone number entry:</FormLabel>
       </Grid>
-      <Grid item xs={12} id={`phone.${index}`}>
+      <Grid size={{ xs: 12 }} id={`phone.${index}`}>
         <Box
           display="flex"
           flexWrap="wrap"
@@ -279,7 +278,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
         </Box>
       </Grid>
       {phoneError && (
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <FormHelperText error>{phoneError}</FormHelperText>
         </Grid>
       )}

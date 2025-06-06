@@ -93,7 +93,7 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         {DrawerList}
       </Drawer>
-      <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+      <Grid size={{ xs: 12 }} sx={{ display: { xs: 'block', md: 'none' } }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -111,8 +111,7 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
         </Toolbar>
       </Grid>
       <Grid
-        item
-        xs={12}
+        size={{ xs: 12 }}
         sx={{ display: { xs: 'none', md: 'flex' } }}
         justifyContent="center"
       >
@@ -121,8 +120,7 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
         </Typography>
       </Grid>
       <Grid
-        item
-        xs={12}
+        size={{ xs: 12 }}
         sx={{ display: { xs: 'none', md: 'flex' } }}
         justifyContent="center"
         mt="2rem"

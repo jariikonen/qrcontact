@@ -78,7 +78,7 @@ function App() {
         <CssBaseline />
         <Grid container spacing={0} direction="column">
           <Header menuOption={menuOption} setMenuOption={setMenuOption} />
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Box
               sx={{
                 width: '100%',

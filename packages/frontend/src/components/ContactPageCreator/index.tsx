@@ -47,7 +47,7 @@ export default function ContactPageCreator() {
 
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Typography
           align="left"
           variant="h5"
@@ -56,7 +56,7 @@ export default function ContactPageCreator() {
           Create a contact page
         </Typography>
       </Grid>
-      <Grid item lg={7} xs={12} style={{ padding: '0.2rem 1rem 1rem 0' }}>
+      <Grid size={{ xs: 12, lg: 7 }} style={{ padding: '0.2rem 1rem 1rem 0' }}>
         <ContactForm
           formSelector={formSelector}
           setFormValues={setFormValues}

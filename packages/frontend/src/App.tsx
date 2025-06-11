@@ -9,9 +9,7 @@ import Header from './components/Header';
 import ContactQRCreator from './components/ContactQRCreator';
 import ContactPageCreator from './components/ContactPageCreator';
 
-interface TabPanelProps {
-  children: React.ReactNode;
-
+interface TabPanelProps extends React.PropsWithChildren {
   /** Index of the current panel. */
   index: number;
 

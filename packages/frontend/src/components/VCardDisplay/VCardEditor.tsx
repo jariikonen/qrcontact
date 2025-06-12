@@ -1,4 +1,11 @@
-import { Box, TextField } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 import { useEffect } from 'react';
 
 export interface VCardEditorProps {
@@ -11,26 +18,25 @@ export interface VCardEditorProps {
   /** Function for setting the download href state variable. */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;
 
-  /**
-   * Boolean indicating whether the component is hidden.
-   * @default false
-   */
-  hidden?: boolean;
+  /** Boolean indicating whether the component is open. */
+  open: boolean;
+
+  /** Handler function for closing the editor. */
+  handleClose: () => void;
 }
 
 /**
- * Component for displaying a vCard string in a text field.
+ * Component for displaying, editing and downloading the vCard.
  *
- * Any changes to the text field will update the vCard string.
- *
- * @param {VCardBoxProps} props - Props for the VCardBox component.
+ * @param {VCardEditorProps} props - Props for the VCardBox component.
  * @returns {JSX.Element} Rendered VCardBox component.
  */
 export default function VCardEditor({
   vCardString,
   setVCardString,
   setDownloadHref,
-  hidden = false,
+  open,
+  handleClose,
 }: VCardEditorProps) {
   useEffect(() => {
     const blob = new Blob([vCardString], {
@@ -38,22 +44,44 @@ export default function VCardEditor({
     });
     setDownloadHref(URL.createObjectURL(blob));
   }, [vCardString, setDownloadHref]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const newVCardString = formData.get('vcard');
+    if (newVCardString) {
+      setVCardString(newVCardString as string);
+    }
+    handleClose();
+  };
+
   return (
-    <Box
-      sx={{ flexGrow: 1 }}
-      style={{ margin: '1rem 0' }}
-      display={hidden ? 'none' : 'block'}
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      slotProps={{
+        paper: {
+          component: 'form',
+          onSubmit: handleSubmit,
+        },
+      }}
+      maxWidth={'sm'}
+      fullWidth
     >
-      <TextField
-        id="vcard-editor"
-        type="text"
-        multiline
-        fullWidth
-        value={vCardString}
-        onChange={(e) => {
-          setVCardString(e.target.value);
-        }}
-      />
-    </Box>
+      <DialogTitle>Edit vCard</DialogTitle>
+      <DialogContent>
+        <TextField
+          name="vcard"
+          type="text"
+          multiline
+          fullWidth
+          defaultValue={vCardString}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button type="submit">Edit</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

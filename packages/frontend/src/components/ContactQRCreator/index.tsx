@@ -27,7 +27,6 @@ export default function ContactQRCreator() {
     (state) => state.staticContactFormSubmitLabel
   );
   const vCardString = useStore((state) => state.staticVCardString);
-  const vCardEditorOpen = useStore((state) => state.staticVCardEditorOpen);
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
@@ -39,9 +38,6 @@ export default function ContactQRCreator() {
     (state) => state.setStaticContactFormSubmitLabel
   );
   const setVCardString = useStore((state) => state.setStaticVCardString);
-  const setVCardEditorOpen = useStore(
-    (state) => state.setStaticVCardEditorOpen
-  );
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -88,13 +84,8 @@ export default function ContactQRCreator() {
     setFormValues(defaultContactFormValues);
     setContactInformation(null);
     setVCardString('');
-    setVCardEditorOpen(false);
     setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
-  };
-
-  const handleVCardEditorOpen = () => {
-    setElementIdToScrollTo('vcard-editor');
   };
 
   const doConfirmation = () => {
@@ -121,7 +112,7 @@ export default function ContactQRCreator() {
           resetConfirmationProps={{
             dialogTitle: 'Are you sure you want to clear the form?',
             dialogContent:
-              'Clearing the form will also clear the QR code and the vCard string.',
+              'Clearing the form will also clear the vCard and the QR code.',
             doConfirmation,
           }}
           submitLabel={contactFormSubmitLabel}
@@ -133,9 +124,6 @@ export default function ContactQRCreator() {
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
-            vCardEditorOpen={vCardEditorOpen}
-            setVCardEditorOpen={setVCardEditorOpen}
-            handleEditorOpen={handleVCardEditorOpen}
           />
         </Stack>
       </Grid>

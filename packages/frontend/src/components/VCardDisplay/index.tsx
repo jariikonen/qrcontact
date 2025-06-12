@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Box, Button, Link } from '@mui/material';
 import VCardEditor from './VCardEditor';
 
@@ -8,15 +8,6 @@ export interface VCardDisplayProps {
 
   /** Function for setting the vCard string state variable. */
   setVCardString: (vCardString: string) => void;
-
-  /** State of the VCard editor box. */
-  vCardEditorOpen: boolean;
-
-  /** Function for setting the state of the vCard editor box. */
-  setVCardEditorOpen: (vCardEditorOpen: boolean) => void;
-
-  /** Callback function that is executed when the box is opened. */
-  handleEditorOpen: () => void;
 }
 
 /**
@@ -29,53 +20,55 @@ export interface VCardDisplayProps {
 export default function VCardDisplay({
   vCardString,
   setVCardString,
-  vCardEditorOpen,
-  setVCardEditorOpen,
-  handleEditorOpen: handleEditorOpenOutside,
 }: VCardDisplayProps) {
   const [downloadHref, setDownloadHref] = useState('');
 
   const handleEditorOpen = () => {
-    const previouslyOpen = vCardEditorOpen;
-    setVCardEditorOpen(!vCardEditorOpen);
-    if (!previouslyOpen && handleEditorOpenOutside) {
-      handleEditorOpenOutside();
-    }
+    setVCardEditorOpen(true);
   };
+
+  const handleEditorClose = () => {
+    setVCardEditorOpen(false);
+  };
+
+  const [vCardEditorOpen, setVCardEditorOpen] = useState(false);
 
   if (!vCardString) {
     return null;
   }
 
   return (
-    <Box>
-      <Box
-        id="vcard-display"
-        sx={{ margin: '1rem 0' }}
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-      >
-        <Link href={downloadHref} download="vcard.vcf">
-          <Button variant="contained" size="small">
-            Download VCard file
-          </Button>
-        </Link>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => handleEditorOpen()}
-          style={{ marginLeft: '0.5rem' }}
+    <Fragment>
+      <Box>
+        <Box
+          id="vcard-display"
+          sx={{ margin: '1rem 0' }}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}
         >
-          {vCardEditorOpen ? 'Hide' : 'Show'} VCard editor
-        </Button>
+          <Link href={downloadHref} download="vcard.vcf">
+            <Button variant="contained" size="small">
+              Download VCard file
+            </Button>
+          </Link>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => handleEditorOpen()}
+            style={{ marginLeft: '0.5rem' }}
+          >
+            Edit vCard
+          </Button>
+        </Box>
       </Box>
       <VCardEditor
         vCardString={vCardString}
         setVCardString={setVCardString}
         setDownloadHref={setDownloadHref}
-        hidden={!vCardEditorOpen}
+        open={vCardEditorOpen}
+        handleClose={handleEditorClose}
       />
-    </Box>
+    </Fragment>
   );
 }

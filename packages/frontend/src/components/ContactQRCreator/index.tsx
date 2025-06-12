@@ -95,6 +95,10 @@ export default function ContactQRCreator() {
     setElementIdToScrollTo('vcard-box');
   };
 
+  const doConfirmation = () => {
+    return !!vCardString;
+  };
+
   return (
     <Grid container>
       <Grid size={{ xs: 12 }}>
@@ -112,6 +116,12 @@ export default function ContactQRCreator() {
           setFormValues={setFormValues}
           handleSubmit={handleSubmit}
           handleReset={handleReset}
+          resetConfirmationProps={{
+            dialogTitle: 'Are you sure you want to clear the form?',
+            dialogContent:
+              'Clearing the form will also clear the QR code and the vCard string.',
+            doConfirmation,
+          }}
           submitLabel={contactFormSubmitLabel}
         />
       </Grid>

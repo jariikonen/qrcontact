@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material';
 import { useEffect } from 'react';
 
-export interface VCardBoxProps {
+export interface VCardEditorProps {
   /** VCard string to display in the text field. */
   vCardString: string;
 
@@ -26,12 +26,12 @@ export interface VCardBoxProps {
  * @param {VCardBoxProps} props - Props for the VCardBox component.
  * @returns {JSX.Element} Rendered VCardBox component.
  */
-export default function VCardBox({
+export default function VCardEditor({
   vCardString,
   setVCardString,
   setDownloadHref,
   hidden = false,
-}: VCardBoxProps) {
+}: VCardEditorProps) {
   useEffect(() => {
     const blob = new Blob([vCardString], {
       type: 'text/vcard;charset=UTF-8',
@@ -45,7 +45,7 @@ export default function VCardBox({
       display={hidden ? 'none' : 'block'}
     >
       <TextField
-        id="vcard-box"
+        id="vcard-editor"
         type="text"
         multiline
         fullWidth

@@ -8,7 +8,7 @@ export interface Store {
   staticContactInformation: ContactFormValues | null;
   staticContactFormSubmitLabel: string;
   staticVCardString: string;
-  staticVCardBoxOpen: boolean;
+  staticVCardEditorOpen: boolean;
   staticElementIdToScrollTo: string | null;
   dynamicFormValues: ContactFormValues;
   dynamicContactInformation: ContactFormValues | null;
@@ -19,7 +19,7 @@ export interface Store {
   ) => void;
   setStaticContactFormSubmitLabel: (newLabel: string) => void;
   setStaticVCardString: (vCardString: string) => void;
-  setStaticVCardBoxOpen: (vCardBoxOpen: boolean) => void;
+  setStaticVCardEditorOpen: (vCardBoxOpen: boolean) => void;
   setStaticElementIdToScrollTo: (elementId: string | null) => void;
   setDynamicFormValues: (dynamicFormValues: ContactFormValues) => void;
   setDynamicContactInformation: (
@@ -34,7 +34,7 @@ export const useStore = create<Store>()(
     staticContactInformation: null,
     staticContactFormSubmitLabel: 'Create',
     staticVCardString: '',
-    staticVCardBoxOpen: false,
+    staticVCardEditorOpen: false,
     staticElementIdToScrollTo: null,
     dynamicFormValues: defaultContactFormValues,
     dynamicContactInformation: null,
@@ -46,8 +46,8 @@ export const useStore = create<Store>()(
       set({ staticContactFormSubmitLabel: newLabel }),
     setStaticVCardString: (vCardString) =>
       set({ staticVCardString: vCardString }),
-    setStaticVCardBoxOpen: (vCardBoxOpen) =>
-      set({ staticVCardBoxOpen: vCardBoxOpen }),
+    setStaticVCardEditorOpen: (vCardEditorOpen) =>
+      set({ staticVCardEditorOpen: vCardEditorOpen }),
     setStaticElementIdToScrollTo: (elementId) =>
       set({ staticElementIdToScrollTo: elementId }),
     setDynamicFormValues: (formValues) =>

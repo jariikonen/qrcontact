@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box, Button, Link } from '@mui/material';
-import VCardBox from './VCardBox';
+import VCardEditor from './VCardEditor';
 
-export interface VCardBoxProps {
+export interface VCardDisplayProps {
   /** VCard content as a string. */
   vCardString: string;
 
@@ -10,36 +10,36 @@ export interface VCardBoxProps {
   setVCardString: (vCardString: string) => void;
 
   /** State of the VCard editor box. */
-  vCardBoxOpen: boolean;
+  vCardEditorOpen: boolean;
 
   /** Function for setting the state of the vCard editor box. */
-  setVCardBoxOpen: (vCardBoxOpen: boolean) => void;
+  setVCardEditorOpen: (vCardEditorOpen: boolean) => void;
 
   /** Callback function that is executed when the box is opened. */
-  handleBoxOpen: () => void;
+  handleEditorOpen: () => void;
 }
 
 /**
  * Component for displaying a vCard string and providing options to download it
  * and show/hide the vCard editor.
  *
- * @param {VCardBoxProps} props - Props for the VCardDisplay component.
+ * @param {VCardDisplayProps} props - Props for the VCardDisplay component.
  * @returns {JSX.Element} Rendered VCardDisplay component.
  */
 export default function VCardDisplay({
   vCardString,
   setVCardString,
-  vCardBoxOpen,
-  setVCardBoxOpen,
-  handleBoxOpen: handleBoxOpenOutside,
-}: VCardBoxProps) {
+  vCardEditorOpen,
+  setVCardEditorOpen,
+  handleEditorOpen: handleEditorOpenOutside,
+}: VCardDisplayProps) {
   const [downloadHref, setDownloadHref] = useState('');
 
-  const handleBoxOpen = () => {
-    const previouslyOpen = vCardBoxOpen;
-    setVCardBoxOpen(!vCardBoxOpen);
-    if (!previouslyOpen && handleBoxOpenOutside) {
-      handleBoxOpenOutside();
+  const handleEditorOpen = () => {
+    const previouslyOpen = vCardEditorOpen;
+    setVCardEditorOpen(!vCardEditorOpen);
+    if (!previouslyOpen && handleEditorOpenOutside) {
+      handleEditorOpenOutside();
     }
   };
 
@@ -64,17 +64,17 @@ export default function VCardDisplay({
         <Button
           variant="contained"
           size="small"
-          onClick={() => handleBoxOpen()}
+          onClick={() => handleEditorOpen()}
           style={{ marginLeft: '0.5rem' }}
         >
-          {vCardBoxOpen ? 'Hide' : 'Show'} VCard editor
+          {vCardEditorOpen ? 'Hide' : 'Show'} VCard editor
         </Button>
       </Box>
-      <VCardBox
+      <VCardEditor
         vCardString={vCardString}
         setVCardString={setVCardString}
         setDownloadHref={setDownloadHref}
-        hidden={!vCardBoxOpen}
+        hidden={!vCardEditorOpen}
       />
     </Box>
   );

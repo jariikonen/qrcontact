@@ -27,7 +27,7 @@ export default function ContactQRCreator() {
     (state) => state.staticContactFormSubmitLabel
   );
   const vCardString = useStore((state) => state.staticVCardString);
-  const vCardBoxOpen = useStore((state) => state.staticVCardBoxOpen);
+  const vCardEditorOpen = useStore((state) => state.staticVCardEditorOpen);
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
@@ -39,7 +39,9 @@ export default function ContactQRCreator() {
     (state) => state.setStaticContactFormSubmitLabel
   );
   const setVCardString = useStore((state) => state.setStaticVCardString);
-  const setVCardBoxOpen = useStore((state) => state.setStaticVCardBoxOpen);
+  const setVCardEditorOpen = useStore(
+    (state) => state.setStaticVCardEditorOpen
+  );
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -86,13 +88,13 @@ export default function ContactQRCreator() {
     setFormValues(defaultContactFormValues);
     setContactInformation(null);
     setVCardString('');
-    setVCardBoxOpen(false);
+    setVCardEditorOpen(false);
     setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
   };
 
-  const handleVCardBoxOpen = () => {
-    setElementIdToScrollTo('vcard-box');
+  const handleVCardEditorOpen = () => {
+    setElementIdToScrollTo('vcard-editor');
   };
 
   const doConfirmation = () => {
@@ -131,9 +133,9 @@ export default function ContactQRCreator() {
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
-            vCardBoxOpen={vCardBoxOpen}
-            setVCardBoxOpen={setVCardBoxOpen}
-            handleBoxOpen={handleVCardBoxOpen}
+            vCardEditorOpen={vCardEditorOpen}
+            setVCardEditorOpen={setVCardEditorOpen}
+            handleEditorOpen={handleVCardEditorOpen}
           />
         </Stack>
       </Grid>

@@ -27,6 +27,7 @@ export default function ContactQRCreator() {
     (state) => state.staticContactFormSubmitLabel
   );
   const vCardString = useStore((state) => state.staticVCardString);
+  const formVCardString = useStore((state) => state.staticFormVCardString);
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
@@ -38,6 +39,9 @@ export default function ContactQRCreator() {
     (state) => state.setStaticContactFormSubmitLabel
   );
   const setVCardString = useStore((state) => state.setStaticVCardString);
+  const setFormVCardString = useStore(
+    (state) => state.setStaticFormVCardString
+  );
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -75,7 +79,9 @@ export default function ContactQRCreator() {
 
   const handleSubmit = (formValues: ContactFormValues) => {
     setContactInformation(formValues);
-    setVCardString(createVCardString(formValues));
+    const newVCardString = createVCardString(formValues);
+    setVCardString(newVCardString);
+    setFormVCardString(newVCardString);
     setElementIdToScrollTo('vcard-display');
     setContactFormSubmitLabel('Update');
   };
@@ -84,6 +90,7 @@ export default function ContactQRCreator() {
     setFormValues(defaultContactFormValues);
     setContactInformation(null);
     setVCardString('');
+    setFormVCardString('');
     setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
   };
@@ -120,7 +127,10 @@ export default function ContactQRCreator() {
       </Grid>
       <Grid size={{ xs: 12, lg: 5 }} display={'flex'} alignContent={'center'}>
         <Stack spacing={2} direction={'column'} display={'flex'} flexGrow={1}>
-          <QRCodeDisplay content={vCardString} />
+          <QRCodeDisplay
+            vCardString={vCardString}
+            formVCardString={formVCardString}
+          />
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}

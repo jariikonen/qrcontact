@@ -27,7 +27,7 @@ export default function ContactQRCreator() {
     (state) => state.staticContactFormSubmitLabel
   );
   const vCardString = useStore((state) => state.staticVCardString);
-  const vCardBoxOpen = useStore((state) => state.staticVCardBoxOpen);
+  const formVCardString = useStore((state) => state.staticFormVCardString);
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
@@ -39,7 +39,9 @@ export default function ContactQRCreator() {
     (state) => state.setStaticContactFormSubmitLabel
   );
   const setVCardString = useStore((state) => state.setStaticVCardString);
-  const setVCardBoxOpen = useStore((state) => state.setStaticVCardBoxOpen);
+  const setFormVCardString = useStore(
+    (state) => state.setStaticFormVCardString
+  );
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -67,9 +69,6 @@ export default function ContactQRCreator() {
       if (elementIdToScrollTo) {
         const el = document.getElementById(elementIdToScrollTo);
         el?.scrollIntoView();
-        if (elementIdToScrollTo == 'vcard-box') {
-          el?.focus();
-        }
         setElementIdToScrollTo(null);
       }
     }, 100);
@@ -77,7 +76,9 @@ export default function ContactQRCreator() {
 
   const handleSubmit = (formValues: ContactFormValues) => {
     setContactInformation(formValues);
-    setVCardString(createVCardString(formValues));
+    const newVCardString = createVCardString(formValues);
+    setVCardString(newVCardString);
+    setFormVCardString(newVCardString);
     setElementIdToScrollTo('vcard-display');
     setContactFormSubmitLabel('Update');
   };
@@ -86,13 +87,13 @@ export default function ContactQRCreator() {
     setFormValues(defaultContactFormValues);
     setContactInformation(null);
     setVCardString('');
-    setVCardBoxOpen(false);
+    setFormVCardString('');
     setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
   };
 
-  const handleVCardBoxOpen = () => {
-    setElementIdToScrollTo('vcard-box');
+  const doConfirmation = () => {
+    return !!vCardString;
   };
 
   return (
@@ -112,18 +113,24 @@ export default function ContactQRCreator() {
           setFormValues={setFormValues}
           handleSubmit={handleSubmit}
           handleReset={handleReset}
+          resetConfirmationProps={{
+            dialogTitle: 'Are you sure you want to clear the form?',
+            dialogContent:
+              'Clearing the form will also clear the vCard and the QR code.',
+            doConfirmation,
+          }}
           submitLabel={contactFormSubmitLabel}
         />
       </Grid>
       <Grid size={{ xs: 12, lg: 5 }} display={'flex'} alignContent={'center'}>
         <Stack spacing={2} direction={'column'} display={'flex'} flexGrow={1}>
-          <QRCodeDisplay content={vCardString} />
+          <QRCodeDisplay
+            vCardString={vCardString}
+            formVCardString={formVCardString}
+          />
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
-            vCardBoxOpen={vCardBoxOpen}
-            setVCardBoxOpen={setVCardBoxOpen}
-            handleBoxOpen={handleVCardBoxOpen}
           />
         </Stack>
       </Grid>

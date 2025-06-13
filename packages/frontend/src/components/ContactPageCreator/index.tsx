@@ -28,9 +28,6 @@ export default function ContactPageCreator() {
       if (elementIdToScrollTo) {
         const el = document.getElementById(elementIdToScrollTo);
         el?.scrollIntoView();
-        if (elementIdToScrollTo == 'vcard-box') {
-          el?.focus();
-        }
         setElementIdToScrollTo(null);
       }
     }, 100);

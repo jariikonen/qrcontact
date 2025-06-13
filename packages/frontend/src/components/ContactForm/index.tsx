@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { Controller, useFieldArray, useWatch } from 'react-hook-form';
 import PhoneNumberInput from '../PhoneNumberInput';
@@ -9,6 +9,10 @@ import {
 import { phoneNumberTypeOptions } from '../PhoneNumberInput/constants';
 import { Store, useStore } from '../../store';
 import { useFormWithStore } from '@jariikonen/zustand-rhf-sync';
+import {
+  ResetConfirmationDialog,
+  ResetConfirmationDialogProps,
+} from './ResetConfirmationDialog';
 
 export interface ContactFormProps {
   /** Function for selecting form values from the full store state. */
@@ -22,6 +26,13 @@ export interface ContactFormProps {
 
   /** Callback function that is executed when the form is reset. */
   handleReset: () => void;
+
+  /** Props for an optional reset confirmation dialog. */
+  resetConfirmationProps?:
+    | (Pick<ResetConfirmationDialogProps, 'dialogTitle' | 'dialogContent'> & {
+        doConfirmation: () => boolean;
+      })
+    | undefined;
 
   /** Label for the submit button. */
   submitLabel: string;
@@ -38,6 +49,7 @@ export default function ContactForm({
   setFormValues,
   handleSubmit: handleSubmitOutside,
   handleReset: handleResetOutside,
+  resetConfirmationProps = undefined,
   submitLabel,
 }: ContactFormProps) {
   const {
@@ -85,11 +97,39 @@ export default function ContactForm({
     }
   }, [clearErrors, phoneNumbers, setError]);
 
-  function handleReset() {
+  // Form reset handling
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+
+  const handleConfirmationClose = () => {
+    setConfirmationOpen(false);
+  };
+
+  const handleConfirmationCancel = () => {
+    setConfirmationOpen(false);
+  };
+
+  const resetForm = () => {
     reset(defaultValues);
     handleResetOutside();
-  }
+  };
 
+  const handleConfirmationReset = () => {
+    setConfirmationOpen(false);
+    resetForm();
+  };
+
+  const handleReset = () => {
+    const doConfirmation = resetConfirmationProps?.doConfirmation
+      ? resetConfirmationProps.doConfirmation()
+      : false;
+    if (doConfirmation) {
+      setConfirmationOpen(true);
+    } else {
+      resetForm();
+    }
+  };
+
+  // FieldArray insert handler
   function handleInsert(id: number) {
     insert(id, {
       preferred: false,
@@ -99,80 +139,92 @@ export default function ContactForm({
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
-        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
-          <Grid size={{ xs: 12 }}>
-            <Controller
-              name={'firstName'}
-              control={control}
-              rules={{ required: 'First name is required.' }}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  error={typeof errors.firstName !== 'undefined'}
-                  label="First name *"
-                  fullWidth
-                  onChange={onChange}
-                  value={value}
-                  helperText={errors.firstName?.message}
-                />
-              )}
-            />
-          </Grid>
-          <Grid size={{ xs: 12 }}>
-            <Controller
-              name={'lastName'}
-              control={control}
-              rules={{ required: 'Last name is required.' }}
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  error={typeof errors.lastName !== 'undefined'}
-                  label="Last name *"
-                  fullWidth
-                  onChange={onChange}
-                  value={value}
-                  helperText={errors.lastName?.message}
-                />
-              )}
-            />
-          </Grid>
-          {phoneFields.map((field, index) => {
-            return (
-              <PhoneNumberInput<ContactFormValues>
-                key={field.id}
-                namePreferred={`phone.${index}.preferred`}
-                nameType={`phone.${index}.type`}
-                nameNumber={`phone.${index}.number`}
-                control={control}
-                fields={phoneFields}
-                field={field}
-                handleInsert={() => handleInsert(index + 1)}
-                remove={remove}
-                index={index}
-                externalErrors={errors}
-              />
-            );
-          })}
-          {errors.phone && (
+    <Fragment>
+      <Box sx={{ flexGrow: 1 }}>
+        <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
+          <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
             <Grid size={{ xs: 12 }}>
-              <FormHelperText error>{errors.phone.message}</FormHelperText>
+              <Controller
+                name={'firstName'}
+                control={control}
+                rules={{ required: 'First name is required.' }}
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    error={typeof errors.firstName !== 'undefined'}
+                    label="First name *"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    helperText={errors.firstName?.message}
+                  />
+                )}
+              />
             </Grid>
-          )}
-          <Grid size={{ xs: 12 }}>
-            <Button variant="contained" type="submit">
-              {submitLabel}
-            </Button>
-            <Button
-              variant="contained"
-              type="button"
-              sx={{ ml: '0.5rem' }}
-              onClick={handleReset}
-            >
-              Clear
-            </Button>
+            <Grid size={{ xs: 12 }}>
+              <Controller
+                name={'lastName'}
+                control={control}
+                rules={{ required: 'Last name is required.' }}
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    error={typeof errors.lastName !== 'undefined'}
+                    label="Last name *"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    helperText={errors.lastName?.message}
+                  />
+                )}
+              />
+            </Grid>
+            {phoneFields.map((field, index) => {
+              return (
+                <PhoneNumberInput<ContactFormValues>
+                  key={field.id}
+                  namePreferred={`phone.${index}.preferred`}
+                  nameType={`phone.${index}.type`}
+                  nameNumber={`phone.${index}.number`}
+                  control={control}
+                  fields={phoneFields}
+                  field={field}
+                  handleInsert={() => handleInsert(index + 1)}
+                  remove={remove}
+                  index={index}
+                  externalErrors={errors}
+                />
+              );
+            })}
+            {errors.phone && (
+              <Grid size={{ xs: 12 }}>
+                <FormHelperText error>{errors.phone.message}</FormHelperText>
+              </Grid>
+            )}
+            <Grid size={{ xs: 12 }}>
+              <Button variant="contained" type="submit">
+                {submitLabel}
+              </Button>
+              <Button
+                variant="contained"
+                type="button"
+                sx={{ ml: '0.5rem' }}
+                onClick={handleReset}
+              >
+                Clear
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-    </Box>
+        </form>
+      </Box>
+      {resetConfirmationProps && (
+        <ResetConfirmationDialog
+          dialogTitle={resetConfirmationProps.dialogTitle}
+          dialogContent={resetConfirmationProps.dialogContent}
+          open={confirmationOpen}
+          handleCancel={handleConfirmationCancel}
+          handleClose={handleConfirmationClose}
+          handleReset={handleConfirmationReset}
+        />
+      )}
+    </Fragment>
   );
 }

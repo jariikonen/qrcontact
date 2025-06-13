@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
-import { Box, Button, Link } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import VCardEditor from './VCardEditor';
+import DownloadButton from '../DownloadButton';
 
 export interface VCardDisplayProps {
   /** VCard content as a string. */
@@ -47,11 +48,14 @@ export default function VCardDisplay({
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Link href={downloadHref} download="vcard.vcf">
-            <Button variant="contained" size="small">
-              Download VCard file
-            </Button>
-          </Link>
+          <DownloadButton
+            href={downloadHref}
+            download="vcard.vcf"
+            variant="contained"
+            size="small"
+          >
+            Download VCard file
+          </DownloadButton>
           <Button
             variant="contained"
             size="small"

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Alert, Box, Button, Grid, Link, Stack } from '@mui/material';
+import { Alert, Box, Grid, Stack } from '@mui/material';
 import { QRCodeBitmap } from './QRCode/QRCodeBitmap';
 import { QRCodeVector } from './QRCode/QRCodeVector';
+import DownloadButton from './DownloadButton';
 
 export interface QRCodeDisplayProps {
   /** The vCardString used as the content of the QR code. */
@@ -69,16 +70,22 @@ export default function QRCodeDisplay({
           </Box>
           {vCardString && (
             <Stack spacing={2} direction={'column'}>
-              <Link href={vectorDownloadHref} download="qrcode.svg">
-                <Button variant="contained" size="small">
-                  Download SVG
-                </Button>
-              </Link>
-              <Link href={bitmapDownloadHref} download="qrcode.png">
-                <Button variant="contained" size="small">
-                  Download PNG
-                </Button>
-              </Link>
+              <DownloadButton
+                href={vectorDownloadHref}
+                download="qrcode.svg"
+                variant="contained"
+                size="small"
+              >
+                Download SVG
+              </DownloadButton>
+              <DownloadButton
+                href={bitmapDownloadHref}
+                download="qrcode.png"
+                variant="contained"
+                size="small"
+              >
+                Download PNG
+              </DownloadButton>
             </Stack>
           )}
         </Box>

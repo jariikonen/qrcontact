@@ -50,7 +50,7 @@ export default function VCardEditor({
     const formData = new FormData(event.currentTarget);
     const newVCardString = formData.get('vcard');
     if (newVCardString) {
-      setVCardString(newVCardString as string);
+      setVCardString((newVCardString as string).replaceAll('\n', '\r\n'));
     }
     handleClose();
   };

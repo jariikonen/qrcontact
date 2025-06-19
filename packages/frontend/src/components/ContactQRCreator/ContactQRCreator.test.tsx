@@ -14,41 +14,44 @@ vi.stubGlobal(
 // Stub for URL.createObjectURL
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(),
-  revokeObjectURL: vi.fn(),
 });
 
-test('renders heading', () => {
-  render(<ContactQRCreator />);
+describe('ContactQRCreator', () => {
+  test('renders heading', () => {
+    render(<ContactQRCreator />);
 
-  const heading = screen.getByRole('heading');
-  expect(heading).toBeDefined();
-  expect(heading).toHaveTextContent('Create a vCard QR code');
-});
+    const heading = screen.getByRole('heading');
+    expect(heading).toBeDefined();
+    expect(heading).toHaveTextContent('Create a vCard QR code');
+  });
 
-test('renders contact form', () => {
-  render(<ContactQRCreator />);
+  test('renders contact form', () => {
+    render(<ContactQRCreator />);
 
-  const form = screen.getByTestId('contact-form');
-  expect(form).toBeDefined();
-});
+    const form = screen.getByTestId('contact-form');
+    expect(form).toBeDefined();
+  });
 
-test('renders qr code display', () => {
-  render(<ContactQRCreator />);
+  test('renders qr code display', () => {
+    render(<ContactQRCreator />);
 
-  const qrCodeDisplay = screen.getByTestId('qr-code-display');
-  expect(qrCodeDisplay).toBeDefined();
-});
+    const qrCodeDisplay = screen.getByTestId('qr-code-display');
+    expect(qrCodeDisplay).toBeDefined();
+  });
 
-test('renders vCard display after the form has been submitted', async () => {
-  render(<ContactQRCreator />);
+  test('renders vCard display after the form has been submitted', async () => {
+    render(<ContactQRCreator />);
 
-  const firstNameInput = screen.getByLabelText('First name', { exact: false });
-  const lastNameInput = screen.getByLabelText('Last name', { exact: false });
-  const submitButton = screen.getByRole('button', { name: 'Create' });
-  fireEvent.change(firstNameInput, { target: { value: 'Pertti' } });
-  fireEvent.change(lastNameInput, { target: { value: 'Mäkynen' } });
-  fireEvent.click(submitButton);
+    const firstNameInput = screen.getByLabelText('First name', {
+      exact: false,
+    });
+    const lastNameInput = screen.getByLabelText('Last name', { exact: false });
+    const submitButton = screen.getByRole('button', { name: 'Create' });
+    fireEvent.change(firstNameInput, { target: { value: 'Pertti' } });
+    fireEvent.change(lastNameInput, { target: { value: 'Mäkynen' } });
+    fireEvent.click(submitButton);
 
-  const vCardDisplay = await screen.findByTestId('vcard-display');
-  expect(vCardDisplay).toBeDefined();
+    const vCardDisplay = await screen.findByTestId('vcard-display');
+    expect(vCardDisplay).toBeDefined();
+  });
 });

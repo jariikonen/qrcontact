@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import {
   Button,
   Dialog,
@@ -37,6 +38,7 @@ export default function VCardEditor({
   setDownloadHref,
   open,
   handleClose,
+  ...other
 }: VCardEditorProps) {
   useEffect(() => {
     const blob = new Blob([vCardString], {
@@ -67,6 +69,7 @@ export default function VCardEditor({
       }}
       maxWidth={'sm'}
       fullWidth
+      {...other}
     >
       <DialogTitle>Edit vCard</DialogTitle>
       <DialogContent>

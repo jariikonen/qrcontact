@@ -56,7 +56,7 @@ export default function VCardDisplay({
             variant="contained"
             size="small"
           >
-            Download VCard file
+            Download vCard file
           </DownloadButton>
           <Button
             variant="contained"
@@ -74,6 +74,7 @@ export default function VCardDisplay({
         setDownloadHref={setDownloadHref}
         open={vCardEditorOpen}
         handleClose={handleEditorClose}
+        data-testid="vcard-editor"
       />
     </Fragment>
   );

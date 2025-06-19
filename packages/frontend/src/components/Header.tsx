@@ -7,7 +7,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Tab,
   Tabs,
@@ -17,8 +16,7 @@ import {
   useTheme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
-import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import CloseIcon from '@mui/icons-material/Close';
 
 export interface HeaderProps {
   /** Currently selected menu option. */
@@ -62,6 +60,11 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
 
   const DrawerList = (
     <Box sx={{ width: 300 }} role="presentation">
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <IconButton onClick={() => setDrawerOpen(false)}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <List>
         <ListItem
           key={'static'}
@@ -69,9 +72,6 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
           onClick={handleMenuSelection(0)}
         >
           <ListItemButton data-testid="menu-button-static">
-            <ListItemIcon>
-              <QrCode2Icon />
-            </ListItemIcon>
             <ListItemText primary={MENU_TEXT_STATIC} />
           </ListItemButton>
         </ListItem>
@@ -81,9 +81,6 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
           onClick={handleMenuSelection(1)}
         >
           <ListItemButton data-testid="menu-button-dynamic">
-            <ListItemIcon>
-              <DatasetLinkedIcon />
-            </ListItemIcon>
             <ListItemText primary={MENU_TEXT_DYNAMIC} />
           </ListItemButton>
         </ListItem>

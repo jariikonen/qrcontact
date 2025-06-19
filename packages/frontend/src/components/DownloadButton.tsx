@@ -2,13 +2,13 @@ import React from 'react';
 import Button, { ButtonProps } from '@mui/material/Button';
 
 type DownloadButtonProps = ButtonProps & {
-  href: string;
-  download: string;
+  href?: string;
+  download?: string;
 };
 
 function DownloadButton({
-  href,
-  download,
+  href = undefined,
+  download = undefined,
   onKeyDown,
   ...rest
 }: DownloadButtonProps) {
@@ -27,6 +27,7 @@ function DownloadButton({
   return (
     <Button
       component="a"
+      role="button"
       href={href}
       download={download}
       onKeyDown={handleKeyDown}

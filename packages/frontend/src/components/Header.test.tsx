@@ -97,7 +97,7 @@ describe('screen size sm', () => {
     expect(heading).toHaveTextContent('QRContact');
   });
 
-  test('renders menu button', async () => {
+  test('renders menu button', () => {
     const menuOption = 0;
     const setMenuOption = vitest.fn();
     render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);

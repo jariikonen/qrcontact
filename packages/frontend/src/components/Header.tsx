@@ -13,6 +13,8 @@ import {
   Tabs,
   Toolbar,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
@@ -44,6 +46,7 @@ const MENU_TEXT_DYNAMIC = 'Create a contact page and link to it with a QR code';
  */
 export default function Header({ menuOption, setMenuOption }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
 
   const handleMenuSelection = (newValue: number) => () => {
     setDrawerOpen(false);
@@ -65,7 +68,7 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
           disablePadding
           onClick={handleMenuSelection(0)}
         >
-          <ListItemButton>
+          <ListItemButton data-testid="menu-button-static">
             <ListItemIcon>
               <QrCode2Icon />
             </ListItemIcon>
@@ -77,7 +80,7 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
           disablePadding
           onClick={handleMenuSelection(1)}
         >
-          <ListItemButton>
+          <ListItemButton data-testid="menu-button-dynamic">
             <ListItemIcon>
               <DatasetLinkedIcon />
             </ListItemIcon>
@@ -93,50 +96,52 @@ export default function Header({ menuOption, setMenuOption }: HeaderProps) {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         {DrawerList}
       </Drawer>
-      <Grid size={{ xs: 12 }} sx={{ display: { xs: 'block', md: 'none' } }}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => setDrawerOpen(true)}
+      {useMediaQuery(theme.breakpoints.down('md')) && (
+        <Grid size={{ xs: 12 }}>
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => setDrawerOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h1" sx={{ flexGrow: 1 }}>
+              QRContact
+            </Typography>
+          </Toolbar>
+        </Grid>
+      )}
+      {useMediaQuery(theme.breakpoints.up('md')) && (
+        <Fragment>
+          <Grid size={{ xs: 12 }} display="flex" justifyContent="center">
+            <Typography variant="h1" mt="2rem">
+              QRContact
+            </Typography>
+          </Grid>
+          <Grid
+            size={{ xs: 12 }}
+            display="flex"
+            justifyContent="center"
+            mt="2rem"
+            mb="2rem"
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
-            QRContact
-          </Typography>
-        </Toolbar>
-      </Grid>
-      <Grid
-        size={{ xs: 12 }}
-        sx={{ display: { xs: 'none', md: 'flex' } }}
-        justifyContent="center"
-      >
-        <Typography variant="h1" mt="2rem">
-          QRContact
-        </Typography>
-      </Grid>
-      <Grid
-        size={{ xs: 12 }}
-        sx={{ display: { xs: 'none', md: 'flex' } }}
-        justifyContent="center"
-        mt="2rem"
-        mb="2rem"
-      >
-        <Tabs
-          value={menuOption}
-          onChange={handleTabSelection}
-          aria-label="main function selection"
-        >
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Tab label={MENU_TEXT_STATIC} {...a11yProps(0)} />{' '}
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Tab label={MENU_TEXT_DYNAMIC} {...a11yProps(1)} />{' '}
-        </Tabs>
-      </Grid>
+            <Tabs
+              value={menuOption}
+              onChange={handleTabSelection}
+              aria-label="main function selection"
+            >
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+              <Tab label={MENU_TEXT_STATIC} {...a11yProps(0)} />{' '}
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+              <Tab label={MENU_TEXT_DYNAMIC} {...a11yProps(1)} />{' '}
+            </Tabs>
+          </Grid>
+        </Fragment>
+      )}
     </Fragment>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Fragment, useEffect, useState } from 'react';
 import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { Controller, useFieldArray, useWatch } from 'react-hook-form';
@@ -51,6 +52,7 @@ export default function ContactForm({
   handleReset: handleResetOutside,
   resetConfirmationProps = undefined,
   submitLabel,
+  ...other
 }: ContactFormProps) {
   const {
     handleSubmit,
@@ -140,7 +142,7 @@ export default function ContactForm({
 
   return (
     <Fragment>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} {...other}>
         <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
           <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
             <Grid size={{ xs: 12 }}>
@@ -152,6 +154,7 @@ export default function ContactForm({
                   <TextField
                     error={typeof errors.firstName !== 'undefined'}
                     label="First name *"
+                    id="firstName"
                     fullWidth
                     onChange={onChange}
                     value={value}
@@ -169,6 +172,7 @@ export default function ContactForm({
                   <TextField
                     error={typeof errors.lastName !== 'undefined'}
                     label="Last name *"
+                    id="lastName"
                     fullWidth
                     onChange={onChange}
                     value={value}

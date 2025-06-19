@@ -120,6 +120,7 @@ export default function ContactQRCreator() {
             doConfirmation,
           }}
           submitLabel={contactFormSubmitLabel}
+          data-testid="contact-form"
         />
       </Grid>
       <Grid size={{ xs: 12, lg: 5 }} display={'flex'} alignContent={'center'}>
@@ -127,10 +128,12 @@ export default function ContactQRCreator() {
           <QRCodeDisplay
             vCardString={vCardString}
             formVCardString={formVCardString}
+            data-testid="qr-code-display"
           />
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
+            data-testid="vcard-display"
           />
         </Stack>
       </Grid>

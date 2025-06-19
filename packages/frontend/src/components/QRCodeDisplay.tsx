@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { Alert, Box, Grid, Stack } from '@mui/material';
 import { QRCodeBitmap } from './QRCode/QRCodeBitmap';
@@ -26,12 +27,13 @@ export interface QRCodeDisplayProps {
 export default function QRCodeDisplay({
   vCardString,
   formVCardString,
+  ...other
 }: QRCodeDisplayProps) {
   const [bitmapDownloadHref, setBitmapDownloadHref] = useState('');
   const [vectorDownloadHref, setVectorDownloadHref] = useState('');
 
   return (
-    <Grid container>
+    <Grid container {...other}>
       {vCardString != formVCardString && (
         <Grid size={12}>
           <Box

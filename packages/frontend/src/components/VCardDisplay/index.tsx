@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Fragment, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import VCardEditor from './VCardEditor';
@@ -21,6 +22,7 @@ export interface VCardDisplayProps {
 export default function VCardDisplay({
   vCardString,
   setVCardString,
+  ...other
 }: VCardDisplayProps) {
   const [downloadHref, setDownloadHref] = useState('');
 
@@ -40,7 +42,7 @@ export default function VCardDisplay({
 
   return (
     <Fragment>
-      <Box>
+      <Box {...other}>
         <Box
           id="vcard-display"
           sx={{ margin: '1rem 0' }}

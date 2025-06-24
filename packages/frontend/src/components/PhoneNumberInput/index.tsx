@@ -180,7 +180,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
                       checked={value}
                       onChange={onChange}
                       id={`phone.${index}.preferredCheckbox`}
-                      inputRef={ref}
+                      slotProps={{ input: { ref } }}
                       color={externalErrors?.phone ? 'error' : 'primary'}
                     />
                   }
@@ -208,14 +208,11 @@ export default function PhoneNumberInput<T extends FieldValues>({
                 renderInput={(params) => <TextField {...params} label="Type" />}
                 getOptionLabel={(option) => option.label}
                 renderOption={(props, option) => {
-                  // TODO: Props should not need to be cast - REMOVE the cast after
-                  // moving to newer MUI version.
-                  const { key, ...optionProps } =
-                    props as React.HTMLAttributes<HTMLLIElement> & {
-                      key: string;
-                    };
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  const { key, ...optionProps } = props;
+                  const keyString: string = key + '';
                   return (
-                    <Box component="li" key={key} {...optionProps}>
+                    <Box component="li" key={keyString} {...optionProps}>
                       {option.label}
                     </Box>
                   );

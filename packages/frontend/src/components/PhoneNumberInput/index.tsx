@@ -261,11 +261,17 @@ export default function PhoneNumberInput<T extends FieldValues>({
             )}
           />
           <Box display="block" pt={'0.5rem'}>
-            <IconButton type="button" color="primary" onClick={handleInsert}>
+            <IconButton
+              type="button"
+              aria-label={`add phone number after phone number ${index + 1}`}
+              color="primary"
+              onClick={handleInsert}
+            >
               <AddCircleIcon />
             </IconButton>
             <IconButton
               type="button"
+              aria-label={`remove phone number ${index + 1}`}
               color="primary"
               onClick={() => remove(index)}
               disabled={fields.length === 1}

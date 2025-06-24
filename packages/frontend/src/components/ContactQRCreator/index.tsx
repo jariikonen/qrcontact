@@ -132,7 +132,6 @@ export default function ContactQRCreator() {
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
-            data-testid="vcard-display"
           />
         </Stack>
       </Grid>

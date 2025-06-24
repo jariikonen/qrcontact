@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import ContactQRCreator from './index.tsx';
 
-// Stub for ResizeObserver
 vi.stubGlobal(
   'ResizeObserver',
   vi.fn(() => ({
@@ -11,9 +10,12 @@ vi.stubGlobal(
   }))
 );
 
-// Stub for URL.createObjectURL
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(),
+});
+
+beforeAll(() => {
+  Element.prototype.scrollIntoView = vi.fn();
 });
 
 describe('ContactQRCreator', () => {
@@ -21,7 +23,7 @@ describe('ContactQRCreator', () => {
     render(<ContactQRCreator />);
 
     const heading = screen.getByRole('heading');
-    expect(heading).toBeDefined();
+    expect(heading).toBeInTheDocument();
     expect(heading).toHaveTextContent('Create a vCard QR code');
   });
 
@@ -36,7 +38,7 @@ describe('ContactQRCreator', () => {
     render(<ContactQRCreator />);
 
     const qrCodeDisplay = screen.getByTestId('qr-code-display');
-    expect(qrCodeDisplay).toBeDefined();
+    expect(qrCodeDisplay).toBeInTheDocument();
   });
 
   test('renders vCard display after the form has been submitted', async () => {
@@ -51,7 +53,15 @@ describe('ContactQRCreator', () => {
     fireEvent.change(lastNameInput, { target: { value: 'Mäkynen' } });
     fireEvent.click(submitButton);
 
-    const vCardDisplay = await screen.findByTestId('vcard-display');
-    expect(vCardDisplay).toBeDefined();
+    const downloadVCardButton = await screen.findByRole('button', {
+      name: 'Download vCard file',
+    });
+    const editVCardButton = await screen.findByRole('button', {
+      name: 'Edit vCard',
+    });
+    expect(downloadVCardButton).toBeInTheDocument();
+    expect(downloadVCardButton).toBeVisible();
+    expect(editVCardButton).toBeInTheDocument();
+    expect(editVCardButton).toBeVisible();
   });
 });

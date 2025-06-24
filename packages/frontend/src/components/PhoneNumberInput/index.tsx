@@ -29,7 +29,6 @@ import {
 } from 'react-hook-form';
 import { PhoneNumberTypeOption } from './types';
 import { matchSorter } from 'match-sorter';
-import { ContactFormValues } from '../ContactForm/types';
 import { phoneNumberTypeOptions } from './constants';
 
 function getScreenWidth() {
@@ -66,7 +65,7 @@ export interface PhoneNumberInputProps<T extends FieldValues> {
   remove: UseFieldArrayRemove;
 
   /** Form errors set on the outside. */
-  externalErrors: FieldErrors<ContactFormValues>;
+  externalErrors: FieldErrors<T>;
 }
 
 /**
@@ -86,6 +85,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
   handleInsert,
   remove,
   externalErrors,
+  ...other
 }: PhoneNumberInputProps<T>) {
   const [phoneError, setPhoneError] = useState('');
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -147,6 +147,7 @@ export default function PhoneNumberInput<T extends FieldValues>({
         sx={{ display: { xs: 'block', md: 'none' } }}
         mt={'0.4rem'}
         mb={'0.2rem'}
+        {...other}
       >
         <FormLabel sx={{ fontSize: '0.9rem' }}>Phone number entry:</FormLabel>
       </Grid>

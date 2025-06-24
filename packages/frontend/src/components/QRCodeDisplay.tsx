@@ -33,11 +33,11 @@ export default function QRCodeDisplay({
   const [vectorDownloadHref, setVectorDownloadHref] = useState('');
 
   return (
-    <Grid container {...other}>
+    <Grid container data-testid="qr-code-display" {...other}>
       {vCardString != formVCardString && (
         <Grid size={12}>
           <Box
-            id="qrcode-display"
+            id="qr-code-display"
             display="flex"
             justifyContent="center"
             alignItems="center"

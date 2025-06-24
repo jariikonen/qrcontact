@@ -128,7 +128,6 @@ export default function ContactQRCreator() {
           <QRCodeDisplay
             vCardString={vCardString}
             formVCardString={formVCardString}
-            data-testid="qr-code-display"
           />
           <VCardDisplay
             vCardString={vCardString}

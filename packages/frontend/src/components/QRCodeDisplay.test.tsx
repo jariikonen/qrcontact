@@ -9,7 +9,7 @@ describe('QRCodeDisplay', () => {
   const vCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
 
-  test('component is rendered', () => {
+  it('renders the component', () => {
     const formVCardString = vCardString;
     render(
       <QRCodeDisplay
@@ -22,7 +22,7 @@ describe('QRCodeDisplay', () => {
     expect(display).toBeVisible();
   });
 
-  test('only one qr code is visible', () => {
+  it('displays only one visible qr code', () => {
     const formVCardString = vCardString;
     render(
       <QRCodeDisplay
@@ -34,7 +34,7 @@ describe('QRCodeDisplay', () => {
     expect(qrCodeImages).toBeVisible();
   });
 
-  test('both buttons are rendered', () => {
+  it('renders both buttons', () => {
     const formVCardString = vCardString;
     render(
       <QRCodeDisplay
@@ -50,7 +50,7 @@ describe('QRCodeDisplay', () => {
     expect(bitmapButton).toBeVisible();
   });
 
-  test('shows notice when vCardString differs from formVCardString', () => {
+  it('shows a notice when vCardString differs from formVCardString', () => {
     const formVCardString =
       'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:John Doe\nEND:VCARD';
     render(

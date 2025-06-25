@@ -10,7 +10,7 @@ describe('VCardDisplay', () => {
   const vCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
 
-  test('renders correctly', () => {
+  it('renders the component correctly', () => {
     const setVCardString = vi.fn();
     render(
       <VCardDisplay vCardString={vCardString} setVCardString={setVCardString} />
@@ -29,7 +29,7 @@ describe('VCardDisplay', () => {
     expect(editButton).toBeInTheDocument();
   });
 
-  test('vCard editor opens on edit button click', async () => {
+  it('opend the vCard editor when edit button is clicked', async () => {
     const setVCardString = vi.fn();
     render(
       <VCardDisplay vCardString={vCardString} setVCardString={setVCardString} />

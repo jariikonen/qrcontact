@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import VCardEditor from './VCardEditor';
+import { act } from 'react';
 
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(() => 'http://example.com/vcard.vcf'),
@@ -9,7 +10,7 @@ describe('VCardEditor', () => {
   const vCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
 
-  test('renders correcly', () => {
+  it('renders the component correcly', () => {
     const setVCardString = vi.fn();
     const setDownloadHref = vi.fn();
     const open = true;
@@ -38,7 +39,7 @@ describe('VCardEditor', () => {
     expect(cancelButton).toBeInTheDocument();
   });
 
-  test('calls setVCardString on form submit', () => {
+  it('calls setVCardString when the edit button is clicked', () => {
     const setVCardString = vi.fn();
     const setDownloadHref = vi.fn();
     const open = true;
@@ -61,11 +62,15 @@ describe('VCardEditor', () => {
       'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pirkko Mäkinen\nEND:VCARD';
     const expectedVCardString = newVCardString.replaceAll('\n', '\r\n');
     textArea.value = newVCardString;
-    editButton.click();
+
+    act(() => {
+      editButton.click();
+    });
+
     expect(setVCardString).toHaveBeenCalledWith(expectedVCardString);
   });
 
-  test.todo('calls handleClose on form submit', () => {
+  it('calls handleClose the edit button is clicked', () => {
     const setVCardString = vi.fn();
     const setDownloadHref = vi.fn();
     const open = true;
@@ -82,7 +87,9 @@ describe('VCardEditor', () => {
     );
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
-    editButton.click();
+    act(() => {
+      editButton.click();
+    });
     expect(handleClose).toHaveBeenCalled();
   });
 });

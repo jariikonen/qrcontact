@@ -9,7 +9,7 @@ describe('QRCodeVector', () => {
   const content =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
 
-  test('qr code is rendered', () => {
+  it('renders the qr code', () => {
     const setDownloadHref = vi.fn();
     render(
       <QRCodeVector content={content} setDownloadHref={setDownloadHref} />
@@ -20,7 +20,7 @@ describe('QRCodeVector', () => {
     expect(qrCodeImage).toBeVisible();
   });
 
-  test('download href is set', async () => {
+  it('sets the download href correctly', async () => {
     const setDownloadHref = vi.fn();
     render(
       <QRCodeVector content={content} setDownloadHref={setDownloadHref} />

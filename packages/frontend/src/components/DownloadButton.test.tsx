@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import DownloadButton from './DownloadButton';
 
 describe('DownloadButton', () => {
-  test('renders correctly', () => {
+  it('renders the component correctly', () => {
     const href = 'https://example.com/vcard.vcf';
     const download = 'vcard.vcf';
     render(
@@ -17,7 +17,7 @@ describe('DownloadButton', () => {
     expect(button).toHaveTextContent('Download vCard file');
   });
 
-  test('onClick() gets called when spacebar is pressed on the button', () => {
+  it('calls onClick when spacebar is pressed on the button', () => {
     const onClick = vi.fn();
     render(
       <DownloadButton onClick={onClick}>Download vCard file</DownloadButton>
@@ -28,7 +28,7 @@ describe('DownloadButton', () => {
     expect(onClick).toHaveBeenCalled();
   });
 
-  test('user provided onKeyDown() gets called when a key is pressed on the button', () => {
+  it('calls user provided onKeyDown when a key is pressed on the button', () => {
     const onKeyDown = vi.fn();
     render(
       <DownloadButton onKeyDown={onKeyDown}>Download vCard file</DownloadButton>
@@ -43,7 +43,7 @@ describe('DownloadButton', () => {
     expect(onKeyDown).toHaveBeenCalled();
   });
 
-  test('onClick() does not get called when a key other than the spacebar is pressed on the button', () => {
+  it('does not call onClick when a key other than the spacebar is pressed on the button', () => {
     const onClick = vi.fn();
     render(
       <DownloadButton onClick={onClick}>Download vCard file</DownloadButton>

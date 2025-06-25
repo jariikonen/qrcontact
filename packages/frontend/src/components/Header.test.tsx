@@ -31,7 +31,7 @@ describe('Header', () => {
       window.matchMedia = vi.fn(createMatchMedia(1024));
     });
 
-    test('renders heading', () => {
+    it('renders the heading', () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -42,7 +42,7 @@ describe('Header', () => {
       expect(heading).toHaveTextContent('QRContact');
     });
 
-    test('renders tabs', () => {
+    it('renders the tabs', () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -57,7 +57,7 @@ describe('Header', () => {
       );
     });
 
-    test('tab 0 is selected, when menuOption is 0', () => {
+    it('sets tab 0 as selected, when menuOption is 0', () => {
       const menuOption = 0;
       const otherOption = 1;
       const setMenuOption = vitest.fn();
@@ -69,7 +69,7 @@ describe('Header', () => {
       expect(tabs[otherOption]).toHaveAttribute('aria-selected', 'false');
     });
 
-    test('tab 1 is selected, when menuOption is 1', () => {
+    it('sets tab 1 as selected, when menuOption is 1', () => {
       const menuOption = 1;
       const otherOption = 0;
       const setMenuOption = vitest.fn();
@@ -87,7 +87,7 @@ describe('Header', () => {
       window.matchMedia = vi.fn(createMatchMedia(375));
     });
 
-    test('renders heading', () => {
+    it('renders the heading', () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -98,7 +98,7 @@ describe('Header', () => {
       expect(heading).toHaveTextContent('QRContact');
     });
 
-    test('renders menu button', () => {
+    it('renders the menu button', () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -109,7 +109,7 @@ describe('Header', () => {
       expect(menuButton).toHaveRole('button');
     });
 
-    test('renders menu items', async () => {
+    it('renders the menu items', async () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -127,7 +127,7 @@ describe('Header', () => {
       expect(buttonDynamic).toHaveRole('button');
     });
 
-    test('setMenuOption() gets called with 0 when menu-button-static is clicked', async () => {
+    it('calls etMenuOption with 0 when menu-button-static is clicked', async () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);
@@ -141,7 +141,7 @@ describe('Header', () => {
       expect(setMenuOption).toHaveBeenCalledWith(0);
     });
 
-    test('setMenuOption() gets called with 1 when menu-button-dynamic is clicked', async () => {
+    it('calls setMenuOption with 1 when menu-button-dynamic is clicked', async () => {
       const menuOption = 0;
       const setMenuOption = vitest.fn();
       render(<Header menuOption={menuOption} setMenuOption={setMenuOption} />);

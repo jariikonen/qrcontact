@@ -82,13 +82,13 @@ function TestForm() {
 }
 
 describe('PhoneNumberInput', () => {
-  test('component is rendered', () => {
+  it('renders the component', () => {
     render(<TestForm />);
     const phoneInput = screen.getByTestId('phone-number-input');
     expect(phoneInput).toBeInTheDocument();
   });
 
-  test('all fields are rendered', () => {
+  it('renderes all fields correctly', () => {
     render(<TestForm />);
 
     const preferredCheckbox = screen.getByLabelText('Preferred');
@@ -104,7 +104,7 @@ describe('PhoneNumberInput', () => {
     expect(numberInput).toBeInTheDocument();
   });
 
-  test('fields can be added', async () => {
+  it('adds a new field when add button is pressed', async () => {
     render(<TestForm />);
 
     const addButton = screen.getByRole('button', {
@@ -121,7 +121,7 @@ describe('PhoneNumberInput', () => {
     });
   });
 
-  test('fields can be removed', async () => {
+  it('removes a field when remove button is pressed', async () => {
     render(<TestForm />);
 
     const addButton = screen.getByRole('button', {

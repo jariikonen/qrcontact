@@ -19,7 +19,7 @@ beforeAll(() => {
 });
 
 describe('ContactQRCreator', () => {
-  test('renders heading', () => {
+  it('renders heading', () => {
     render(<ContactQRCreator />);
 
     const heading = screen.getByRole('heading');
@@ -27,21 +27,21 @@ describe('ContactQRCreator', () => {
     expect(heading).toHaveTextContent('Create a vCard QR code');
   });
 
-  test('renders contact form', () => {
+  it('renders contact form', () => {
     render(<ContactQRCreator />);
 
     const form = screen.getByTestId('contact-form');
     expect(form).toBeDefined();
   });
 
-  test('renders qr code display', () => {
+  it('renders qr code display', () => {
     render(<ContactQRCreator />);
 
     const qrCodeDisplay = screen.getByTestId('qr-code-display');
     expect(qrCodeDisplay).toBeInTheDocument();
   });
 
-  test('renders vCard display after the form has been submitted', async () => {
+  it('renders vCard display after the form has been submitted', async () => {
     render(<ContactQRCreator />);
 
     const firstNameInput = screen.getByLabelText('First name', {

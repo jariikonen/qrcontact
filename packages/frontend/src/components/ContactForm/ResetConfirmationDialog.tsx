@@ -43,8 +43,12 @@ export function ResetConfirmationDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel}>{cancelLabel}</Button>
-        <Button onClick={handleReset}>{resetLabel}</Button>
+        <Button data-testid="dialog-cancel-button" onClick={handleCancel}>
+          {cancelLabel}
+        </Button>
+        <Button data-testid="dialog-confirm-button" onClick={handleReset}>
+          {resetLabel}
+        </Button>
       </DialogActions>
     </Dialog>
   );

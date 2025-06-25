@@ -142,7 +142,7 @@ export default function ContactForm({
 
   return (
     <Fragment>
-      <Box sx={{ flexGrow: 1 }} {...other}>
+      <Box sx={{ flexGrow: 1 }} data-testid="contact-form" {...other}>
         <form onSubmit={(e) => void handleSubmit(handleSubmitOutside)(e)}>
           <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
             <Grid size={{ xs: 12 }}>

@@ -10,6 +10,9 @@ export interface VCardDisplayProps {
 
   /** Function for setting the vCard string state variable. */
   setVCardString: (vCardString: string) => void;
+
+  /** Function for setting the vCardEdited state variable. */
+  setVCardEdited: (vCardEdited: boolean) => void;
 }
 
 /**
@@ -22,6 +25,7 @@ export interface VCardDisplayProps {
 export default function VCardDisplay({
   vCardString,
   setVCardString,
+  setVCardEdited,
   ...other
 }: VCardDisplayProps) {
   const [downloadHref, setDownloadHref] = useState('');
@@ -71,6 +75,7 @@ export default function VCardDisplay({
       <VCardEditor
         vCardString={vCardString}
         setVCardString={setVCardString}
+        setVCardEdited={setVCardEdited}
         setDownloadHref={setDownloadHref}
         open={vCardEditorOpen}
         handleClose={handleEditorClose}

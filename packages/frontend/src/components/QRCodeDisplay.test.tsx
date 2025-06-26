@@ -1,20 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import QRCodeDisplay from './QRCodeDisplay';
+import { defaultContactFormValues } from './ContactForm/types';
 
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(() => 'http://example.com/blob.svg'),
 });
 
 describe('QRCodeDisplay', () => {
-  const vCardString =
+  const mockVCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
+  const mockContactFormValues = {
+    ...defaultContactFormValues,
+    firstName: 'Pertti',
+    lastName: 'Mäkynen',
+  };
 
   it('renders the component', () => {
-    const formVCardString = vCardString;
     render(
       <QRCodeDisplay
-        vCardString={vCardString}
-        formVCardString={formVCardString}
+        vCardString={mockVCardString}
+        vCardData={mockContactFormValues}
+        vCardEdited={false}
+        currentFormData={mockContactFormValues}
       />
     );
     const display = screen.getByTestId('qr-code-display');
@@ -23,11 +30,12 @@ describe('QRCodeDisplay', () => {
   });
 
   it('displays only one visible qr code', () => {
-    const formVCardString = vCardString;
     render(
       <QRCodeDisplay
-        vCardString={vCardString}
-        formVCardString={formVCardString}
+        vCardString={mockVCardString}
+        vCardData={mockContactFormValues}
+        vCardEdited={false}
+        currentFormData={mockContactFormValues}
       />
     );
     const qrCodeImages = screen.getByRole('img');
@@ -35,11 +43,12 @@ describe('QRCodeDisplay', () => {
   });
 
   it('renders both buttons', () => {
-    const formVCardString = vCardString;
     render(
       <QRCodeDisplay
-        vCardString={vCardString}
-        formVCardString={formVCardString}
+        vCardString={mockVCardString}
+        vCardData={mockContactFormValues}
+        vCardEdited={false}
+        currentFormData={mockContactFormValues}
       />
     );
     const vectorButton = screen.getByRole('button', { name: 'Download SVG' });
@@ -50,13 +59,32 @@ describe('QRCodeDisplay', () => {
     expect(bitmapButton).toBeVisible();
   });
 
-  it('shows a notice when vCardString differs from formVCardString', () => {
-    const formVCardString =
-      'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:John Doe\nEND:VCARD';
+  it('displays a notice when vCardString differs from formVCardString', () => {
+    const editedFormData = {
+      ...mockContactFormValues,
+      firstName: 'John',
+      lastName: 'Doe',
+    };
     render(
       <QRCodeDisplay
-        vCardString={vCardString}
-        formVCardString={formVCardString}
+        vCardString={mockVCardString}
+        vCardData={mockContactFormValues}
+        vCardEdited={false}
+        currentFormData={editedFormData}
+      />
+    );
+    const notice = screen.getByText(/Notice!/i);
+    expect(notice).toBeInTheDocument();
+    expect(notice).toBeVisible();
+  });
+
+  it('displays a notice when vCardEdited state variable is true', () => {
+    render(
+      <QRCodeDisplay
+        vCardString={mockVCardString}
+        vCardData={mockContactFormValues}
+        vCardEdited={true}
+        currentFormData={mockContactFormValues}
       />
     );
     const notice = screen.getByText(/Notice!/i);

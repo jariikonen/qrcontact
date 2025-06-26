@@ -1,19 +1,28 @@
+import { act } from 'react';
 import { render, screen } from '@testing-library/react';
 import VCardDisplay from '.';
-import { act } from 'react';
 
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(() => 'http://example.com/vcard.vcf'),
 });
 
 describe('VCardDisplay', () => {
-  const vCardString =
+  const mockVCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
+  const mockSetVCardString = vi.fn();
+  const mockSetVCardEdited = vi.fn();
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders the component correctly', () => {
-    const setVCardString = vi.fn();
     render(
-      <VCardDisplay vCardString={vCardString} setVCardString={setVCardString} />
+      <VCardDisplay
+        vCardString={mockVCardString}
+        setVCardString={mockSetVCardString}
+        setVCardEdited={mockSetVCardEdited}
+      />
     );
 
     const downloadButton = screen.getByRole('button', {
@@ -29,10 +38,13 @@ describe('VCardDisplay', () => {
     expect(editButton).toBeInTheDocument();
   });
 
-  it('opend the vCard editor when edit button is clicked', async () => {
-    const setVCardString = vi.fn();
+  it('opens the vCard editor when edit button is clicked', async () => {
     render(
-      <VCardDisplay vCardString={vCardString} setVCardString={setVCardString} />
+      <VCardDisplay
+        vCardString={mockVCardString}
+        setVCardString={mockSetVCardString}
+        setVCardEdited={mockSetVCardEdited}
+      />
     );
 
     const editButton = screen.getByRole('button', { name: 'Edit vCard' });

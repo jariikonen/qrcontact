@@ -1,8 +1,8 @@
+import { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ContactForm from './index.tsx';
 import { phoneNumberTypeOptions } from '../PhoneNumberInput/constants.ts';
 import { Store } from '../../store.ts';
-import { act } from 'react';
 
 vi.stubGlobal(
   'ResizeObserver',
@@ -13,18 +13,20 @@ vi.stubGlobal(
   }))
 );
 
+const defaultFormValues = {
+  firstName: 'Jaana',
+  lastName: 'Tikkanen',
+  phone: [
+    {
+      preferred: false,
+      type: phoneNumberTypeOptions[0],
+      number: '123456789',
+    },
+  ],
+};
+
 const mockFormSelector = vi.fn((_state: Store) => {
-  return {
-    firstName: 'Jaana',
-    lastName: 'Tikkanen',
-    phone: [
-      {
-        preferred: false,
-        type: phoneNumberTypeOptions[0],
-        number: '123456789',
-      },
-    ],
-  };
+  return defaultFormValues;
 });
 
 const mockSetFormValues = vi.fn();
@@ -207,8 +209,8 @@ describe('ContactForm', () => {
       doConfirmation: mockDoConfirmation,
     };
 
-    beforeEach(() => {
-      mockDoConfirmation.mockClear();
+    afterEach(() => {
+      vi.clearAllMocks();
     });
 
     it('confirms form reset from user when the doConfirmation returns true', async () => {

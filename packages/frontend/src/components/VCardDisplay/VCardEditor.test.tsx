@@ -1,28 +1,32 @@
+import { act } from 'react';
 import { render, screen } from '@testing-library/react';
 import VCardEditor from './VCardEditor';
-import { act } from 'react';
 
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(() => 'http://example.com/vcard.vcf'),
 });
 
 describe('VCardEditor', () => {
-  const vCardString =
+  const mockVCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
+  const mockSetVCardString = vi.fn();
+  const mockSetVCardEdited = vi.fn();
+  const mockSetDownloadHref = vi.fn();
+  const mockHandleClose = vi.fn();
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders the component correcly', () => {
-    const setVCardString = vi.fn();
-    const setDownloadHref = vi.fn();
-    const open = true;
-    const handleClose = vi.fn();
-
     render(
       <VCardEditor
-        vCardString={vCardString}
-        setVCardString={setVCardString}
-        setDownloadHref={setDownloadHref}
-        open={open}
-        handleClose={handleClose}
+        vCardString={mockVCardString}
+        setVCardString={mockSetVCardString}
+        setVCardEdited={mockSetVCardEdited}
+        setDownloadHref={mockSetDownloadHref}
+        open={true}
+        handleClose={mockHandleClose}
       />
     );
     const dialog = screen.getByRole('dialog');
@@ -31,7 +35,7 @@ describe('VCardEditor', () => {
 
     const textArea = screen.getByRole('textbox');
     expect(textArea).toBeInTheDocument();
-    expect(textArea).toHaveValue(vCardString);
+    expect(textArea).toHaveValue(mockVCardString);
 
     const editButton = screen.getByRole('button', { name: 'Edit' });
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
@@ -40,18 +44,14 @@ describe('VCardEditor', () => {
   });
 
   it('calls setVCardString when the edit button is clicked', () => {
-    const setVCardString = vi.fn();
-    const setDownloadHref = vi.fn();
-    const open = true;
-    const handleClose = vi.fn();
-
     render(
       <VCardEditor
-        vCardString={vCardString}
-        setVCardString={setVCardString}
-        setDownloadHref={setDownloadHref}
-        open={open}
-        handleClose={handleClose}
+        vCardString={mockVCardString}
+        setVCardString={mockSetVCardString}
+        setVCardEdited={mockSetVCardEdited}
+        setDownloadHref={mockSetDownloadHref}
+        open={true}
+        handleClose={mockHandleClose}
       />
     );
 
@@ -67,22 +67,18 @@ describe('VCardEditor', () => {
       editButton.click();
     });
 
-    expect(setVCardString).toHaveBeenCalledWith(expectedVCardString);
+    expect(mockSetVCardString).toHaveBeenCalledWith(expectedVCardString);
   });
 
-  it('calls handleClose the edit button is clicked', () => {
-    const setVCardString = vi.fn();
-    const setDownloadHref = vi.fn();
-    const open = true;
-    const handleClose = vi.fn();
-
+  it('calls handleClose when the edit button is clicked', () => {
     render(
       <VCardEditor
-        vCardString={vCardString}
-        setVCardString={setVCardString}
-        setDownloadHref={setDownloadHref}
-        open={open}
-        handleClose={handleClose}
+        vCardString={mockVCardString}
+        setVCardString={mockSetVCardString}
+        setVCardEdited={mockSetVCardEdited}
+        setDownloadHref={mockSetDownloadHref}
+        open={true}
+        handleClose={mockHandleClose}
       />
     );
 
@@ -90,6 +86,6 @@ describe('VCardEditor', () => {
     act(() => {
       editButton.click();
     });
-    expect(handleClose).toHaveBeenCalled();
+    expect(mockHandleClose).toHaveBeenCalled();
   });
 });

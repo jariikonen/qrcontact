@@ -2,6 +2,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { Controller, useFieldArray, useWatch } from 'react-hook-form';
+import { useFormWithStore } from '@jariikonen/zustand-rhf-sync';
 import PhoneNumberInput from '../PhoneNumberInput';
 import {
   ContactFormValues,
@@ -9,7 +10,6 @@ import {
 } from './types';
 import { phoneNumberTypeOptions } from '../PhoneNumberInput/constants';
 import { Store, useStore } from '../../store';
-import { useFormWithStore } from '@jariikonen/zustand-rhf-sync';
 import {
   ResetConfirmationDialog,
   ResetConfirmationDialogProps,
@@ -55,12 +55,12 @@ export default function ContactForm({
   ...other
 }: ContactFormProps) {
   const {
-    handleSubmit,
-    formState: { errors },
     control,
+    clearErrors,
+    formState: { errors },
+    handleSubmit,
     reset,
     setError,
-    clearErrors,
   } = useFormWithStore<Store, ContactFormValues>(
     useStore,
     setFormValues,

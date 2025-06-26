@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -7,7 +8,6 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import { useEffect } from 'react';
 
 export interface VCardEditorProps {
   /** VCard string to display in the text field. */
@@ -15,6 +15,9 @@ export interface VCardEditorProps {
 
   /** Function for setting the vCard string state variable. */
   setVCardString: (vCardString: string) => void;
+
+  /** Function for setting the vCardEdited state variable. */
+  setVCardEdited: (vCardEdited: boolean) => void;
 
   /** Function for setting the download href state variable. */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;
@@ -35,6 +38,7 @@ export interface VCardEditorProps {
 export default function VCardEditor({
   vCardString,
   setVCardString,
+  setVCardEdited,
   setDownloadHref,
   open,
   handleClose,
@@ -53,6 +57,7 @@ export default function VCardEditor({
     const newVCardString = formData.get('vcard');
     if (newVCardString) {
       setVCardString((newVCardString as string).replaceAll('\n', '\r\n'));
+      setVCardEdited(true);
     }
     handleClose();
   };

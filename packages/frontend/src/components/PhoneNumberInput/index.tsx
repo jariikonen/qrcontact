@@ -27,8 +27,8 @@ import {
   Path,
   UseFieldArrayRemove,
 } from 'react-hook-form';
-import { PhoneNumberTypeOption } from './types';
 import { matchSorter } from 'match-sorter';
+import { PhoneNumberTypeOption } from './types';
 import { phoneNumberTypeOptions } from './constants';
 
 function getScreenWidth() {

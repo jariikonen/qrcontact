@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { render, screen } from '@testing-library/react';
-import VCardDisplay from '.';
+import VCardDisplay from './index.tsx';
 
 vi.stubGlobal('URL', {
   createObjectURL: vi.fn(() => 'http://example.com/vcard.vcf'),

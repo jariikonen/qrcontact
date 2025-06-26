@@ -1,9 +1,9 @@
+import { act } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { render, screen, waitFor } from '@testing-library/react';
 import PhoneNumberInput from './index.tsx';
 import { phoneNumberTypeOptions } from './constants.ts';
 import { PhoneNumberTypeOption } from './types.ts';
-import { act } from 'react';
 
 vi.stubGlobal(
   'ResizeObserver',

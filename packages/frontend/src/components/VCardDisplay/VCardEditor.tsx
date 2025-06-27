@@ -13,11 +13,16 @@ export interface VCardEditorProps {
   /** VCard string to display in the text field. */
   vCardString: string;
 
+  /**
+   * The original vCard string, that was created when the form was submitted.
+   *
+   * Used for detecting wether the vCard string has really changed and for
+   * resetting the vCard to the original.
+   */
+  originalVCardString: string;
+
   /** Function for setting the vCard string state variable. */
   setVCardString: (vCardString: string) => void;
-
-  /** Function for setting the vCardEdited state variable. */
-  setVCardEdited: (vCardEdited: boolean) => void;
 
   /** Function for setting the download href state variable. */
   setDownloadHref: React.Dispatch<React.SetStateAction<string>>;
@@ -38,7 +43,7 @@ export interface VCardEditorProps {
 export default function VCardEditor({
   vCardString,
   setVCardString,
-  setVCardEdited,
+  originalVCardString,
   setDownloadHref,
   open,
   handleClose,
@@ -55,10 +60,14 @@ export default function VCardEditor({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const newVCardString = formData.get('vcard');
-    if (newVCardString) {
+    if (newVCardString != originalVCardString) {
       setVCardString((newVCardString as string).replaceAll('\n', '\r\n'));
-      setVCardEdited(true);
     }
+    handleClose();
+  };
+
+  const handleReset = () => {
+    setVCardString(originalVCardString);
     handleClose();
   };
 
@@ -89,6 +98,9 @@ export default function VCardEditor({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
+        {vCardString != originalVCardString && (
+          <Button onClick={handleReset}>Reset</Button>
+        )}
         <Button type="submit">Edit</Button>
       </DialogActions>
     </Dialog>

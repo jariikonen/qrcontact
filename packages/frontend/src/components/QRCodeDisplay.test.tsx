@@ -20,7 +20,7 @@ describe('QRCodeDisplay', () => {
       <QRCodeDisplay
         vCardString={mockVCardString}
         vCardData={mockContactFormValues}
-        vCardEdited={false}
+        originalVCardString={mockVCardString}
         currentFormData={mockContactFormValues}
       />
     );
@@ -34,7 +34,7 @@ describe('QRCodeDisplay', () => {
       <QRCodeDisplay
         vCardString={mockVCardString}
         vCardData={mockContactFormValues}
-        vCardEdited={false}
+        originalVCardString={mockVCardString}
         currentFormData={mockContactFormValues}
       />
     );
@@ -47,7 +47,7 @@ describe('QRCodeDisplay', () => {
       <QRCodeDisplay
         vCardString={mockVCardString}
         vCardData={mockContactFormValues}
-        vCardEdited={false}
+        originalVCardString={mockVCardString}
         currentFormData={mockContactFormValues}
       />
     );
@@ -59,7 +59,7 @@ describe('QRCodeDisplay', () => {
     expect(bitmapButton).toBeVisible();
   });
 
-  it('displays a notice when vCardString differs from formVCardString', () => {
+  it('displays a notice when vCardData differs from currentFormData', () => {
     const editedFormData = {
       ...mockContactFormValues,
       firstName: 'John',
@@ -69,7 +69,7 @@ describe('QRCodeDisplay', () => {
       <QRCodeDisplay
         vCardString={mockVCardString}
         vCardData={mockContactFormValues}
-        vCardEdited={false}
+        originalVCardString={mockVCardString}
         currentFormData={editedFormData}
       />
     );
@@ -78,12 +78,14 @@ describe('QRCodeDisplay', () => {
     expect(notice).toBeVisible();
   });
 
-  it('displays a notice when vCardEdited state variable is true', () => {
+  it('displays a notice when vCardString differs from originalVCardString', () => {
+    const editedVCardString =
+      'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Jaana Tikkanen\nEND:VCARD';
     render(
       <QRCodeDisplay
-        vCardString={mockVCardString}
+        vCardString={editedVCardString}
         vCardData={mockContactFormValues}
-        vCardEdited={true}
+        originalVCardString={mockVCardString}
         currentFormData={mockContactFormValues}
       />
     );

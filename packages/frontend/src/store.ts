@@ -25,10 +25,10 @@ export interface Store {
   staticVCardString: string;
 
   /**
-   * Boolean indicating wether the vCard string has been manually edited after
-   * it was submitted, that is used in the ContactQRCreator.
+   * The original ContactQRCreator vCard string, that was created when the form
+   * was submitted.
    */
-  staticVCardEdited: boolean;
+  staticOriginalVCardString: string;
 
   /**
    * Id of an HTML element that should be scrolled to, that is used in the
@@ -65,10 +65,10 @@ export interface Store {
   setStaticVCardString: (vCardString: string) => void;
 
   /**
-   * Sets the boolean indicating wether the vCard string has been edited after
-   * it was submitted, that is used in the ContactQRCreator.
+   * Sets the original ContactQRCreator vCard string, that was created when the
+   * form was submitted.
    */
-  setStaticVCardEdited: (vCardEdited: boolean) => void;
+  setStaticOriginalVCardString: (vCardString: string) => void;
 
   /**
    * Sets the id of an HTML element that should be scrolled to, that is used
@@ -100,7 +100,7 @@ const defaultStoreValues: Pick<
   | 'staticContactInformation'
   | 'staticContactFormSubmitLabel'
   | 'staticVCardString'
-  | 'staticVCardEdited'
+  | 'staticOriginalVCardString'
   | 'staticElementIdToScrollTo'
   | 'dynamicFormValues'
   | 'dynamicContactInformation'
@@ -110,7 +110,7 @@ const defaultStoreValues: Pick<
   staticContactInformation: null,
   staticContactFormSubmitLabel: 'Create',
   staticVCardString: '',
-  staticVCardEdited: false,
+  staticOriginalVCardString: '',
   staticElementIdToScrollTo: null,
   dynamicFormValues: defaultContactFormValues,
   dynamicContactInformation: null,
@@ -127,8 +127,8 @@ export const useStore = create<Store>()(
       set({ staticContactFormSubmitLabel: newLabel }),
     setStaticVCardString: (vCardString) =>
       set({ staticVCardString: vCardString }),
-    setStaticVCardEdited: (vCardEdited) =>
-      set({ staticVCardEdited: vCardEdited }),
+    setStaticOriginalVCardString: (vCardString) =>
+      set({ staticOriginalVCardString: vCardString }),
     setStaticElementIdToScrollTo: (elementId) =>
       set({ staticElementIdToScrollTo: elementId }),
     setDynamicFormValues: (formValues) =>

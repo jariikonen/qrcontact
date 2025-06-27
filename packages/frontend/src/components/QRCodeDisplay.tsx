@@ -19,8 +19,12 @@ export interface QRCodeDisplayProps {
    */
   vCardData: ContactFormValues | null;
 
-  /** Boolean indicating wether the vCardString has been manually edited. */
-  vCardEdited: boolean;
+  /**
+   * The original vCard string, that was created when the form was submitted.
+   *
+   * Used for detecting when the vCard string has been manually edited.
+   */
+  originalVCardString: string;
 
   /**
    * Current form values.
@@ -40,7 +44,7 @@ export interface QRCodeDisplayProps {
 export default function QRCodeDisplay({
   vCardString,
   vCardData,
-  vCardEdited,
+  originalVCardString,
   currentFormData,
   ...other
 }: QRCodeDisplayProps) {
@@ -52,16 +56,26 @@ export default function QRCodeDisplay({
     'You can set them to the form content using the update button.';
   const vCardEditedAlertText =
     'The vCard has been edited manually. You can set it to the form content ' +
-    'using the update button.';
+    'using the update button, or reset it to the original using the reset ' +
+    'button in the editor.';
   const [alertText, setAlertText] = useState(defaultAlertText);
+  const [vCardEdited, setVCardEdited] = useState(false);
 
   useEffect(() => {
+    const vCardEdited = vCardString != originalVCardString;
     if (vCardEdited) {
       setAlertText(vCardEditedAlertText);
+      setVCardEdited(vCardEdited);
     } else {
       setAlertText(defaultAlertText);
+      setVCardEdited(vCardEdited);
     }
-  }, [defaultAlertText, vCardEdited, vCardEditedAlertText]);
+  }, [
+    vCardString,
+    originalVCardString,
+    defaultAlertText,
+    vCardEditedAlertText,
+  ]);
 
   return (
     <Grid container data-testid="qr-code-display" {...other}>

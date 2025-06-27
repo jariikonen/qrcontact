@@ -29,7 +29,9 @@ export default function ContactQRCreator() {
   const currentFormData = useStore((state) => state.staticFormValues);
   const vCardData = useStore((state) => state.staticContactInformation);
   const vCardString = useStore((state) => state.staticVCardString);
-  const vCardEdited = useStore((state) => state.staticVCardEdited);
+  const originalVCardString = useStore(
+    (state) => state.staticOriginalVCardString
+  );
   const elementIdToScrollTo = useStore(
     (state) => state.staticElementIdToScrollTo
   );
@@ -41,7 +43,9 @@ export default function ContactQRCreator() {
     (state) => state.setStaticContactFormSubmitLabel
   );
   const setVCardString = useStore((state) => state.setStaticVCardString);
-  const setVCardEdited = useStore((state) => state.setStaticVCardEdited);
+  const setOriginalVCardString = useStore(
+    (state) => state.setStaticOriginalVCardString
+  );
   const setElementIdToScrollTo = useStore(
     (state) => state.setStaticElementIdToScrollTo
   );
@@ -78,7 +82,7 @@ export default function ContactQRCreator() {
     setContactInformation(formValues);
     const newVCardString = createVCardString(formValues);
     setVCardString(newVCardString);
-    setVCardEdited(false);
+    setOriginalVCardString(newVCardString);
     setElementIdToScrollTo('vcard-display');
     setContactFormSubmitLabel('Update');
   };
@@ -87,7 +91,7 @@ export default function ContactQRCreator() {
     setFormValues(defaultContactFormValues);
     setContactInformation(null);
     setVCardString('');
-    setVCardEdited(false);
+    setOriginalVCardString('');
     setContactFormSubmitLabel('Create');
     window.scrollTo(0, 0);
   };
@@ -128,13 +132,13 @@ export default function ContactQRCreator() {
           <QRCodeDisplay
             vCardString={vCardString}
             vCardData={vCardData}
-            vCardEdited={vCardEdited}
+            originalVCardString={originalVCardString}
             currentFormData={currentFormData}
           />
           <VCardDisplay
             vCardString={vCardString}
             setVCardString={setVCardString}
-            setVCardEdited={setVCardEdited}
+            originalVCardString={originalVCardString}
           />
         </Stack>
       </Grid>

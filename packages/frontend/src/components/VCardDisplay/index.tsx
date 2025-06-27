@@ -11,8 +11,13 @@ export interface VCardDisplayProps {
   /** Function for setting the vCard string state variable. */
   setVCardString: (vCardString: string) => void;
 
-  /** Function for setting the vCardEdited state variable. */
-  setVCardEdited: (vCardEdited: boolean) => void;
+  /**
+   * The original vCard string, that was created when the form was submitted.
+   *
+   * Used in the editor for detecting wether the vCard string has really
+   * changed and for resetting the vCard to the original.
+   */
+  originalVCardString: string;
 }
 
 /**
@@ -25,7 +30,7 @@ export interface VCardDisplayProps {
 export default function VCardDisplay({
   vCardString,
   setVCardString,
-  setVCardEdited,
+  originalVCardString,
   ...other
 }: VCardDisplayProps) {
   const [downloadHref, setDownloadHref] = useState('');
@@ -75,7 +80,7 @@ export default function VCardDisplay({
       <VCardEditor
         vCardString={vCardString}
         setVCardString={setVCardString}
-        setVCardEdited={setVCardEdited}
+        originalVCardString={originalVCardString}
         setDownloadHref={setDownloadHref}
         open={vCardEditorOpen}
         handleClose={handleEditorClose}

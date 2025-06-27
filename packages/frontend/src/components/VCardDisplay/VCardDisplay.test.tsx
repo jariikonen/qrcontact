@@ -10,7 +10,6 @@ describe('VCardDisplay', () => {
   const mockVCardString =
     'BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=utf-8:Pertti Mäkynen\nEND:VCARD';
   const mockSetVCardString = vi.fn();
-  const mockSetVCardEdited = vi.fn();
 
   afterEach(() => {
     vi.clearAllMocks();
@@ -20,8 +19,8 @@ describe('VCardDisplay', () => {
     render(
       <VCardDisplay
         vCardString={mockVCardString}
+        originalVCardString={mockVCardString}
         setVCardString={mockSetVCardString}
-        setVCardEdited={mockSetVCardEdited}
       />
     );
 
@@ -42,8 +41,8 @@ describe('VCardDisplay', () => {
     render(
       <VCardDisplay
         vCardString={mockVCardString}
+        originalVCardString={mockVCardString}
         setVCardString={mockSetVCardString}
-        setVCardEdited={mockSetVCardEdited}
       />
     );
 

@@ -237,6 +237,9 @@ export default function PhoneNumberInput<T extends FieldValues>({
               <CountryCodeSelector
                 phoneNumberLabel="Phone number"
                 selectorProps={{
+                  slotProps: {
+                    paper: { sx: { width: 'fit-content' } },
+                  },
                   sx: {
                     minWidth: '7rem',
                     maxWidth: '7rem',

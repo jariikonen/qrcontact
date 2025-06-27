@@ -239,6 +239,22 @@ export default function PhoneNumberInput<T extends FieldValues>({
                 selectorProps={{
                   slotProps: {
                     paper: { sx: { width: 'fit-content' } },
+                    popper: {
+                      sx: {
+                        maxHeight: '40vh',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        '&[data-popper-placement="top"]': {
+                          alignItems: 'flex-end',
+                        },
+                        '& .MuiAutocomplete-paper': {
+                          flexGrow: 1,
+                        },
+                        '& .MuiAutocomplete-listbox': {
+                          maxHeight: 'auto',
+                        },
+                      },
+                    },
                   },
                   sx: {
                     minWidth: '7rem',

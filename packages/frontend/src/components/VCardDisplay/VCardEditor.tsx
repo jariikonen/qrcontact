@@ -74,6 +74,7 @@ export default function VCardEditor({
       }}
       maxWidth={'sm'}
       fullWidth
+      closeAfterTransition={false}
       {...other}
     >
       <DialogTitle>Edit vCard</DialogTitle>
